@@ -48,3 +48,14 @@ def require_roles(*roles: UserRole):
 
 
 AdminUser = Annotated[User, Depends(require_roles(UserRole.admin))]
+
+
+def is_admin(user: User) -> bool:
+    return user.role == UserRole.admin
+
+
+def ensure_owner(user: User, agent_id: int) -> None:
+    """Agents only see their own records; brokers/admins see everything."""
+    if not is_admin(user) and agent_id != user.id:
+        # 404, not 403, so agents can't probe which ids exist.
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found.")

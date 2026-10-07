@@ -16,7 +16,12 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173"
     admin_email: str = "admin@propconnect-demo.com"
     admin_password: str = "change-me-now"
-    openai_api_key: str = ""  # Phase 5
+    demo_password: str = "DemoAgent2026"
+    # AI Next Step. Leave the key blank to use the rule-based fallback only.
+    openai_api_key: str = ""
+    openai_model: str = "gpt-4o-mini"
+    openai_base_url: str = "https://api.openai.com/v1"
+    ai_timeout_seconds: float = 20.0
 
     @property
     def cors_origin_list(self) -> list[str]:

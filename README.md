@@ -4,7 +4,9 @@ AI-enhanced real estate CRM and lead management platform.
 CPSC-8985 Graduate Seminar Project, Governors State University (Team 2).
 
 **Stack:** React + TypeScript (Vite) · FastAPI · PostgreSQL · OpenAI API
-**Status:** Phase 1 (Foundation). See [docs/phases.md](docs/phases.md).
+**Status:** Milestone 2 done: client management, property listings, lead pipeline and the AI Next Step. See [docs/phases.md](docs/phases.md).
+
+**Windows?** Follow [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md).
 
 ## Repository layout
 
@@ -17,7 +19,8 @@ propconnect-ai/
 │   │   ├── db/              SQLAlchemy base + session
 │   │   ├── models/          ORM models (users, clients, leads, properties, ...)
 │   │   ├── schemas/         Pydantic request/response models
-│   │   └── scripts/         seed admin, export OpenAPI
+│   │   ├── services/        lead scoring, property matching, AI Next Step
+│   │   └── scripts/         data prep/load, demo seed, password reset, export OpenAPI
 │   ├── migrations/          Alembic
 │   ├── tests/
 │   └── openapi.json         generated API contract (committed)
@@ -58,6 +61,26 @@ npm run dev
 
 Sign in with the `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `backend/.env`, then add agent accounts on the Team page.
 
+### Load listings and demo data
+
+Put the datasets in `data/raw/` (see [data/README.md](data/README.md)), then from `backend/`:
+
+```bash
+python -m app.scripts.prepare_data   # clean 800 Illinois listings + Zillow market data
+python -m app.scripts.load_data      # load into PostgreSQL
+python -m app.scripts.seed_demo      # 2 demo agents, 40 clients, leads in every stage
+```
+
+Demo agent logins: `maria.lopez@propconnect-demo.com` and `james.carter@propconnect-demo.com`,
+password `DEMO_PASSWORD` from `.env` (default `DemoAgent2026`).
+
+### AI Next Step
+
+Set `OPENAI_API_KEY` in `backend/.env` to use the model (default `gpt-4o-mini`, change with `OPENAI_MODEL`).
+Without a key, a rule-based assistant gives the same kind of suggestion, so the app always works.
+The model only receives facts from the database and must return a fixed JSON shape; invalid output
+falls back to the rules. Every suggestion and the agent's decision are stored in `ai_suggestions`.
+
 ## Keeping frontend types in sync
 
 The frontend never hand-writes API types. After changing any backend route or schema:
@@ -76,6 +99,8 @@ Commit both files. CI fails if either is out of date, and `tsc` flags every fron
 | Run backend tests | `cd backend && pytest` |
 | New migration after model changes | `cd backend && alembic revision --autogenerate -m "describe change"` |
 | Type-check frontend | `cd frontend && npm run typecheck` |
+| Reset a password | `cd backend && python -m app.scripts.reset_password <email> <new password>` |
+| Recreate demo data | `cd backend && python -m app.scripts.seed_demo --reset` |
 
 ## Workflow
 

@@ -48,7 +48,7 @@ class Client(TimestampMixin, Base):
     purchase_timeline_months: Mapped[int | None] = mapped_column(Integer)
     notes: Mapped[str | None] = mapped_column(Text)
 
-    leads: Mapped[list["Lead"]] = relationship(back_populates="client")
+    leads: Mapped[list["Lead"]] = relationship(back_populates="client", cascade="all, delete-orphan", passive_deletes=True)
 
 
 class Lead(TimestampMixin, Base):
@@ -65,7 +65,7 @@ class Lead(TimestampMixin, Base):
 
     client: Mapped[Client] = relationship(back_populates="leads")
     history: Mapped[list["LeadStageHistory"]] = relationship(
-        back_populates="lead", order_by="LeadStageHistory.changed_at"
+        back_populates="lead", order_by="LeadStageHistory.id", cascade="all, delete-orphan", passive_deletes=True
     )
 
 
@@ -92,6 +92,8 @@ class PropertyInterest(TimestampMixin, Base):
     property_id: Mapped[int] = mapped_column(ForeignKey("properties.id", ondelete="CASCADE"), index=True)
     interest_level: Mapped[str] = mapped_column(String(10), default="medium")  # low/medium/high
     notes: Mapped[str | None] = mapped_column(Text)
+
+    property: Mapped["Property"] = relationship("Property", lazy="joined")  # noqa: F821
 
 
 class Interaction(TimestampMixin, Base):

@@ -65,3 +65,14 @@ class OfferStatus(str, enum.Enum):
     accepted = "accepted"
     rejected = "rejected"
     withdrawn = "withdrawn"
+
+
+class SuggestionStatus(str, enum.Enum):
+    suggested = "suggested"
+    accepted = "accepted"
+    dismissed = "dismissed"
+
+
+class SuggestionSource(str, enum.Enum):
+    openai = "openai"
+    rules = "rules"  # deterministic fallback when the AI is unavailable

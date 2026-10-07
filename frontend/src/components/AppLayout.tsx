@@ -1,13 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-// Modules arrive phase by phase; upcoming ones show which phase unlocks them.
 const upcoming = [
-  { label: "Clients & leads", phase: 2 },
-  { label: "Properties", phase: 2 },
   { label: "Calendar", phase: 3 },
   { label: "Offers", phase: 3 },
-  { label: "AI assistant", phase: 5 },
   { label: "Analytics", phase: 6 },
 ];
 
@@ -21,6 +17,9 @@ export function AppLayout() {
         </div>
         <nav>
           <NavLink to="/" end>Dashboard</NavLink>
+          <NavLink to="/pipeline">Lead pipeline</NavLink>
+          <NavLink to="/clients">Clients</NavLink>
+          <NavLink to="/properties">Properties</NavLink>
           {user?.role === "admin" && <NavLink to="/team">Team</NavLink>}
           {upcoming.map((m) => (
             <span key={m.label} className="nav-soon" title={`Available in phase ${m.phase}`}>
