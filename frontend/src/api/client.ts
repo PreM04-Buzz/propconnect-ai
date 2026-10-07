@@ -1,12 +1,28 @@
 import createClient, { type Middleware } from "openapi-fetch";
 import type { components, paths } from "./schema";
 
-export type User = components["schemas"]["UserRead"];
-export type UserCreate = components["schemas"]["UserCreate"];
+type S = components["schemas"];
+export type User = S["UserRead"];
+export type UserCreate = S["UserCreate"];
 export type UserRole = User["role"];
+export type ClientListItem = S["ClientListItem"];
+export type ClientDetail = S["ClientDetail"];
+export type ClientCreate = S["ClientCreate"];
+export type ClientUpdate = S["ClientUpdate"];
+export type InteractionType = S["InteractionType"];
+export type Property = S["PropertyRead"];
+export type PropertyCreate = S["PropertyCreate"];
+export type PropertyMatch = S["PropertyMatch"];
+export type CityCount = S["CityCount"];
+export type LeadCard = S["LeadCard"];
+export type LeadDetail = S["LeadDetail"];
+export type LeadStage = S["LeadStage"];
+export type StageCount = S["StageCount"];
+export type Suggestion = S["SuggestionRead"];
+export type FinancingStatus = S["FinancingStatus"];
+export type ClientType = S["ClientType"];
 
-// Access token lives in sessionStorage: it survives a refresh but is cleared when
-// the tab closes. (Phase 7 hardening option: move to an httpOnly cookie.)
+// Access token lives in sessionStorage: it survives a refresh but is cleared when the tab closes.
 const TOKEN_KEY = "propconnect.token";
 export const tokenStore = {
   get: () => sessionStorage.getItem(TOKEN_KEY),
@@ -42,7 +58,7 @@ export function errorMessage(error: unknown, fallback = "Something went wrong. T
   if (error && typeof error === "object" && "detail" in error) {
     const d = (error as { detail: unknown }).detail;
     if (typeof d === "string") return d;
-    if (Array.isArray(d) && d[0]?.msg) return String(d[0].msg);
+    if (Array.isArray(d) && d[0]?.msg) return String(d[0].msg).replace(/^Value error, /, "");
   }
   return fallback;
 }

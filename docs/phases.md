@@ -1,29 +1,30 @@
 # Development phases
 
-Stack: React + TypeScript (Vite) · FastAPI · PostgreSQL · OpenAI API (Phase 5).
+Stack: React + TypeScript (Vite) · FastAPI · PostgreSQL · OpenAI API.
 Types flow one way: FastAPI models → `backend/openapi.json` → `frontend/src/api/schema.d.ts`.
 
-| Phase | Name | Outcome |
+The plan was reordered after the Phase 1 review: the first AI feature moved into the
+CRM-core milestone, as the professor requested.
+
+| Milestone | Scope | Status |
 |---|---|---|
-| 1 | Foundation | Repo, CI, full DB schema + migrations, JWT auth, roles, React shell |
-| 2 | CRM core + data | Clients, leads, pipeline moves with history, properties, interactions; dataset cleaning + import |
-| 3 | Scheduling & offers | Calendar views, viewings/meetings, conflict detection, offers |
-| 4 | Matching & scoring | Rule-based 0-100 property match and lead score, with explanations and unit tests |
-| 5 | AI Lead Assistant | Backend-only LLM calls, bounded prompts, summaries, next actions, drafts, agent review |
-| 6 | Dashboard & analytics | KPIs, pipeline and conversion charts, Zillow market trends |
-| 7 | Evaluation & finalization | AI scenario evaluation log, security review, bug fixes, demo scenarios |
+| 1 Foundation | Repo, CI, schema + migrations, JWT auth, roles, React shell | Done |
+| 2 CRM core + first AI feature | Clients, listings, lead pipeline, data import, rule-based scoring and matching, AI Next Step | Done |
+| 3 Scheduling and offers | Calendar, viewings, conflict detection, offers | Next |
+| 4 AI depth | Interaction summaries, AI explanations of matches, prompt evaluation | Planned |
+| 5 Dashboard and analytics | Conversion charts, Zillow market trends | Planned |
+| 6 Evaluation and finalization | AI scenario evaluation log, security review, demo | Planned |
 
-## Phase 1 - Foundation (this scaffold)
+## Milestone 2 checklist
 
-- [x] Monorepo layout, `.gitignore`, `.env.example`, Docker Postgres
-- [x] SQLAlchemy models for every entity in the design doc
-- [x] Initial Alembic migration
-- [x] Password hashing (bcrypt) and JWT access tokens
-- [x] Role-based access: `agent`, `admin` (Administrator/Broker)
-- [x] API: `/api/health`, `/api/auth/login`, `/api/auth/me`, `/api/users` (admin only)
-- [x] Seed script for the first admin
-- [x] OpenAPI export → generated TypeScript types → typed API client
-- [x] React shell: login, protected routes, role-gated Team page, sidebar
-- [x] CI: tests, migrations on real Postgres, schema drift checks, frontend build
-- [ ] Create the GitHub repo, protect `main`, add teammate as collaborator
-- [ ] Create a GitHub Projects board with one column per phase
+- [x] Data pipeline: clean 800 Illinois listings and 94,656 Zillow market rows (`prepare_data`, `load_data`)
+- [x] Demo data: 2 agents, 40 clients, leads in every stage, interactions, shortlists, past viewings (`seed_demo`)
+- [x] Client management: create, search, filter, edit, delete; profile, timeline, shortlist, best matches
+- [x] Property listings: search, filters, sort, paging, detail, add listing, update price, shortlist for a client
+- [x] Lead pipeline: 7-stage drag-and-drop board, stage history, lost reason, lead detail
+- [x] Rule-based lead score (0–100) with a per-factor explanation
+- [x] Rule-based property match score (0–100)
+- [x] AI Next Step: summary, intent, one recommended action, reasoning, editable draft message;
+      accept (logs to timeline) or dismiss; every suggestion stored; rule-based fallback
+- [x] Agents see only their own clients and leads; brokers see everything
+- [x] 30 automated tests

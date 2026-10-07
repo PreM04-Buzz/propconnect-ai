@@ -79,10 +79,323 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Clients */
+        get: operations["list_clients_api_clients_get"];
+        put?: never;
+        /** Create Client */
+        post: operations["create_client_api_clients_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read Client */
+        get: operations["read_client_api_clients__client_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Client */
+        delete: operations["delete_client_api_clients__client_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Client */
+        patch: operations["update_client_api_clients__client_id__patch"];
+        trace?: never;
+    };
+    "/api/clients/{client_id}/interactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Interaction */
+        post: operations["add_interaction_api_clients__client_id__interactions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}/interests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Interest */
+        post: operations["add_interest_api_clients__client_id__interests_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}/interests/{interest_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove Interest */
+        delete: operations["remove_interest_api_clients__client_id__interests__interest_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}/matches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Client Matches */
+        get: operations["client_matches_api_clients__client_id__matches_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/properties": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Properties */
+        get: operations["list_properties_api_properties_get"];
+        put?: never;
+        /** Create Property */
+        post: operations["create_property_api_properties_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/properties/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Cities */
+        get: operations["list_cities_api_properties_cities_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/properties/{property_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read Property */
+        get: operations["read_property_api_properties__property_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Property */
+        delete: operations["delete_property_api_properties__property_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Property */
+        patch: operations["update_property_api_properties__property_id__patch"];
+        trace?: never;
+    };
+    "/api/leads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Leads */
+        get: operations["list_leads_api_leads_get"];
+        put?: never;
+        /** Create Lead */
+        post: operations["create_lead_api_leads_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/leads/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Stage Summary */
+        get: operations["stage_summary_api_leads_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/leads/{lead_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read Lead */
+        get: operations["read_lead_api_leads__lead_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Lead */
+        patch: operations["update_lead_api_leads__lead_id__patch"];
+        trace?: never;
+    };
+    "/api/leads/{lead_id}/move": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Move Lead
+         * @description Move a lead to another pipeline stage. Every move is recorded in the stage history.
+         */
+        post: operations["move_lead_api_leads__lead_id__move_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ai/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Ai Status */
+        get: operations["ai_status_api_ai_status_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/leads/{lead_id}/ai/next-step": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Next Step
+         * @description Ask the AI Lead Assistant for the single most useful next step on this lead.
+         */
+        post: operations["next_step_api_leads__lead_id__ai_next_step_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/leads/{lead_id}/ai/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Suggestions */
+        get: operations["list_suggestions_api_leads__lead_id__ai_suggestions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ai/suggestions/{suggestion_id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decide
+         * @description The agent accepts or dismisses a suggestion. Accepting logs it on the client's timeline.
+         */
+        post: operations["decide_api_ai_suggestions__suggestion_id__decision_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AiStatus */
+        AiStatus: {
+            /** Ai Enabled */
+            ai_enabled: boolean;
+            /** Model */
+            model: string | null;
+        };
         /** Body_login_api_auth_login_post */
         Body_login_api_auth_login_post: {
             /** Grant Type */
@@ -107,11 +420,603 @@ export interface components {
              */
             client_secret?: string | null;
         };
+        /** CityCount */
+        CityCount: {
+            /** City */
+            city: string;
+            /** Count */
+            count: number;
+        };
+        /** ClientCreate */
+        ClientCreate: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Email */
+            email?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** @default buyer */
+            client_type: components["schemas"]["ClientType"];
+            /** Budget Min */
+            budget_min?: number | null;
+            /** Budget Max */
+            budget_max?: number | null;
+            /**
+             * Budget Confirmed
+             * @default false
+             */
+            budget_confirmed: boolean;
+            /** Preferred City */
+            preferred_city?: string | null;
+            /**
+             * Preferred State
+             * @default Illinois
+             */
+            preferred_state: string | null;
+            /** Preferred Zip */
+            preferred_zip?: string | null;
+            /** Min Bedrooms */
+            min_bedrooms?: number | null;
+            /** Min Bathrooms */
+            min_bathrooms?: number | null;
+            /** Min House Size Sqft */
+            min_house_size_sqft?: number | null;
+            /** Preferred Property Type */
+            preferred_property_type?: string | null;
+            /** @default unknown */
+            financing_status: components["schemas"]["FinancingStatus"];
+            /** Purchase Timeline Months */
+            purchase_timeline_months?: number | null;
+            /** Notes */
+            notes?: string | null;
+            /**
+             * Create Lead
+             * @default true
+             */
+            create_lead: boolean;
+            /** Lead Source */
+            lead_source?: string | null;
+            /** Agent Id */
+            agent_id?: number | null;
+        };
+        /** ClientDetail */
+        ClientDetail: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Email */
+            email?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** @default buyer */
+            client_type: components["schemas"]["ClientType"];
+            /** Budget Min */
+            budget_min?: number | null;
+            /** Budget Max */
+            budget_max?: number | null;
+            /**
+             * Budget Confirmed
+             * @default false
+             */
+            budget_confirmed: boolean;
+            /** Preferred City */
+            preferred_city?: string | null;
+            /**
+             * Preferred State
+             * @default Illinois
+             */
+            preferred_state: string | null;
+            /** Preferred Zip */
+            preferred_zip?: string | null;
+            /** Min Bedrooms */
+            min_bedrooms?: number | null;
+            /** Min Bathrooms */
+            min_bathrooms?: number | null;
+            /** Min House Size Sqft */
+            min_house_size_sqft?: number | null;
+            /** Preferred Property Type */
+            preferred_property_type?: string | null;
+            /** @default unknown */
+            financing_status: components["schemas"]["FinancingStatus"];
+            /** Purchase Timeline Months */
+            purchase_timeline_months?: number | null;
+            /** Notes */
+            notes?: string | null;
+            /** Id */
+            id: number;
+            /** Agent Id */
+            agent_id: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Leads */
+            leads: components["schemas"]["LeadBrief"][];
+            /** Interactions */
+            interactions: components["schemas"]["InteractionRead"][];
+            /** Interests */
+            interests: components["schemas"]["InterestRead"][];
+        };
+        /** ClientListItem */
+        ClientListItem: {
+            /** Id */
+            id: number;
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Email */
+            email: string | null;
+            /** Phone */
+            phone: string | null;
+            client_type: components["schemas"]["ClientType"];
+            /** Budget Max */
+            budget_max: number | null;
+            /** Preferred City */
+            preferred_city: string | null;
+            financing_status: components["schemas"]["FinancingStatus"];
+            /** Lead Id */
+            lead_id: number | null;
+            lead_stage: components["schemas"]["LeadStage"] | null;
+            /** Lead Priority */
+            lead_priority: string | null;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** ClientRead */
+        ClientRead: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Email */
+            email?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** @default buyer */
+            client_type: components["schemas"]["ClientType"];
+            /** Budget Min */
+            budget_min?: number | null;
+            /** Budget Max */
+            budget_max?: number | null;
+            /**
+             * Budget Confirmed
+             * @default false
+             */
+            budget_confirmed: boolean;
+            /** Preferred City */
+            preferred_city?: string | null;
+            /**
+             * Preferred State
+             * @default Illinois
+             */
+            preferred_state: string | null;
+            /** Preferred Zip */
+            preferred_zip?: string | null;
+            /** Min Bedrooms */
+            min_bedrooms?: number | null;
+            /** Min Bathrooms */
+            min_bathrooms?: number | null;
+            /** Min House Size Sqft */
+            min_house_size_sqft?: number | null;
+            /** Preferred Property Type */
+            preferred_property_type?: string | null;
+            /** @default unknown */
+            financing_status: components["schemas"]["FinancingStatus"];
+            /** Purchase Timeline Months */
+            purchase_timeline_months?: number | null;
+            /** Notes */
+            notes?: string | null;
+            /** Id */
+            id: number;
+            /** Agent Id */
+            agent_id: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
+         * ClientType
+         * @enum {string}
+         */
+        ClientType: "buyer" | "seller" | "both";
+        /** ClientUpdate */
+        ClientUpdate: {
+            /** First Name */
+            first_name?: string | null;
+            /** Last Name */
+            last_name?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Phone */
+            phone?: string | null;
+            client_type?: components["schemas"]["ClientType"] | null;
+            /** Budget Min */
+            budget_min?: number | null;
+            /** Budget Max */
+            budget_max?: number | null;
+            /** Budget Confirmed */
+            budget_confirmed?: boolean | null;
+            /** Preferred City */
+            preferred_city?: string | null;
+            /** Preferred State */
+            preferred_state?: string | null;
+            /** Preferred Zip */
+            preferred_zip?: string | null;
+            /** Min Bedrooms */
+            min_bedrooms?: number | null;
+            /** Min Bathrooms */
+            min_bathrooms?: number | null;
+            /** Min House Size Sqft */
+            min_house_size_sqft?: number | null;
+            /** Preferred Property Type */
+            preferred_property_type?: string | null;
+            financing_status?: components["schemas"]["FinancingStatus"] | null;
+            /** Purchase Timeline Months */
+            purchase_timeline_months?: number | null;
+            /** Notes */
+            notes?: string | null;
+        };
+        /**
+         * FinancingStatus
+         * @enum {string}
+         */
+        FinancingStatus: "unknown" | "not_started" | "pre_qualified" | "pre_approved" | "cash";
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** InteractionCreate */
+        InteractionCreate: {
+            interaction_type: components["schemas"]["InteractionType"];
+            /** Summary */
+            summary: string;
+            /** Occurred At */
+            occurred_at?: string | null;
+        };
+        /** InteractionRead */
+        InteractionRead: {
+            /** Id */
+            id: number;
+            /** Client Id */
+            client_id: number;
+            /** Agent Id */
+            agent_id: number;
+            interaction_type: components["schemas"]["InteractionType"];
+            /** Summary */
+            summary: string;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+        };
+        /**
+         * InteractionType
+         * @enum {string}
+         */
+        InteractionType: "call" | "email" | "text" | "meeting" | "note";
+        /** InterestCreate */
+        InterestCreate: {
+            /** Property Id */
+            property_id: number;
+            /**
+             * Interest Level
+             * @default medium
+             */
+            interest_level: string;
+            /** Notes */
+            notes?: string | null;
+        };
+        /** InterestRead */
+        InterestRead: {
+            /** Id */
+            id: number;
+            /** Property Id */
+            property_id: number;
+            /** Interest Level */
+            interest_level: string;
+            /** Notes */
+            notes: string | null;
+            property: components["schemas"]["PropertyRead"];
+        };
+        /** LeadBrief */
+        LeadBrief: {
+            /** Id */
+            id: number;
+            stage: components["schemas"]["LeadStage"];
+            /** Source */
+            source: string | null;
+            /** Score */
+            score: number | null;
+            /** Priority */
+            priority: string | null;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** LeadCard */
+        LeadCard: {
+            /** Id */
+            id: number;
+            stage: components["schemas"]["LeadStage"];
+            /** Source */
+            source: string | null;
+            /** Score */
+            score: number | null;
+            /** Priority */
+            priority: string | null;
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Client Type */
+            client_type: string;
+            /** Budget Max */
+            budget_max: number | null;
+            /** Preferred City */
+            preferred_city: string | null;
+            /** Last Contact At */
+            last_contact_at: string | null;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** LeadCreate */
+        LeadCreate: {
+            /** Client Id */
+            client_id: number;
+            /** Source */
+            source?: string | null;
+        };
+        /** LeadDetail */
+        LeadDetail: {
+            /** Id */
+            id: number;
+            stage: components["schemas"]["LeadStage"];
+            /** Source */
+            source: string | null;
+            /** Score */
+            score: number | null;
+            /** Priority */
+            priority: string | null;
+            /** Lost Reason */
+            lost_reason: string | null;
+            /** Agent Id */
+            agent_id: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            client: components["schemas"]["ClientRead"];
+            /** History */
+            history: components["schemas"]["StageHistoryRead"][];
+            /** Score Breakdown */
+            score_breakdown: components["schemas"]["ScoreItemRead"][];
+        };
+        /** LeadMove */
+        LeadMove: {
+            to_stage: components["schemas"]["LeadStage"];
+            /** Lost Reason */
+            lost_reason?: string | null;
+        };
+        /**
+         * LeadStage
+         * @enum {string}
+         */
+        LeadStage: "new" | "contacted" | "qualified" | "proposal" | "negotiation" | "won" | "lost";
+        /** LeadUpdate */
+        LeadUpdate: {
+            /** Source */
+            source?: string | null;
+        };
+        /** PropertyCreate */
+        PropertyCreate: {
+            /** @default for_sale */
+            status: components["schemas"]["PropertyStatus"];
+            /** Price */
+            price?: number | null;
+            /** Bedrooms */
+            bedrooms?: number | null;
+            /** Bathrooms */
+            bathrooms?: number | null;
+            /** House Size Sqft */
+            house_size_sqft?: number | null;
+            /** Acre Lot */
+            acre_lot?: number | null;
+            /** Street Address */
+            street_address?: string | null;
+            /** City */
+            city: string;
+            /** State */
+            state: string;
+            /** Zip Code */
+            zip_code: string;
+            /** Property Type */
+            property_type?: string | null;
+        };
+        /** PropertyMatch */
+        PropertyMatch: {
+            property: components["schemas"]["PropertyRead"];
+            /** Score */
+            score: number;
+            /** Reasons */
+            reasons: string[];
+        };
+        /** PropertyPage */
+        PropertyPage: {
+            /** Items */
+            items: components["schemas"]["PropertyRead"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+        };
+        /** PropertyRead */
+        PropertyRead: {
+            /** @default for_sale */
+            status: components["schemas"]["PropertyStatus"];
+            /** Price */
+            price?: number | null;
+            /** Bedrooms */
+            bedrooms?: number | null;
+            /** Bathrooms */
+            bathrooms?: number | null;
+            /** House Size Sqft */
+            house_size_sqft?: number | null;
+            /** Acre Lot */
+            acre_lot?: number | null;
+            /** Street Address */
+            street_address?: string | null;
+            /** City */
+            city: string;
+            /** State */
+            state: string;
+            /** Zip Code */
+            zip_code: string;
+            /** Property Type */
+            property_type?: string | null;
+            /** Id */
+            id: number;
+            /** Prev Sold Date */
+            prev_sold_date?: string | null;
+        };
+        /**
+         * PropertyStatus
+         * @enum {string}
+         */
+        PropertyStatus: "for_sale" | "sold" | "ready_to_build" | "off_market";
+        /** PropertyUpdate */
+        PropertyUpdate: {
+            status?: components["schemas"]["PropertyStatus"] | null;
+            /** Price */
+            price?: number | null;
+            /** Bedrooms */
+            bedrooms?: number | null;
+            /** Bathrooms */
+            bathrooms?: number | null;
+            /** House Size Sqft */
+            house_size_sqft?: number | null;
+            /** Street Address */
+            street_address?: string | null;
+            /** Property Type */
+            property_type?: string | null;
+        };
+        /** ScoreItemRead */
+        ScoreItemRead: {
+            /** Factor */
+            factor: string;
+            /** Points */
+            points: number;
+            /** Max Points */
+            max_points: number;
+            /** Reason */
+            reason: string;
+        };
+        /** StageCount */
+        StageCount: {
+            stage: components["schemas"]["LeadStage"];
+            /** Count */
+            count: number;
+        };
+        /** StageHistoryRead */
+        StageHistoryRead: {
+            /** Id */
+            id: number;
+            from_stage: components["schemas"]["LeadStage"] | null;
+            to_stage: components["schemas"]["LeadStage"];
+            /** Changed By Id */
+            changed_by_id: number;
+            /**
+             * Changed At
+             * Format: date-time
+             */
+            changed_at: string;
+        };
+        /** SuggestionDecision */
+        SuggestionDecision: {
+            /** @description accepted or dismissed */
+            status: components["schemas"]["SuggestionStatus"];
+            /**
+             * Draft Message
+             * @description The agent's edited draft, if changed
+             */
+            draft_message?: string | null;
+        };
+        /** SuggestionRead */
+        SuggestionRead: {
+            /** Id */
+            id: number;
+            /** Lead Id */
+            lead_id: number;
+            /** Client Id */
+            client_id: number;
+            source: components["schemas"]["SuggestionSource"];
+            /** Model */
+            model: string | null;
+            /** Intent Level */
+            intent_level: string;
+            /** Summary */
+            summary: string;
+            /** Recommended Action */
+            recommended_action: string;
+            /** Action Type */
+            action_type: string;
+            /** Reasoning */
+            reasoning: string;
+            /** Draft Message */
+            draft_message: string;
+            status: components["schemas"]["SuggestionStatus"];
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Decided At */
+            decided_at: string | null;
+        };
+        /**
+         * SuggestionSource
+         * @enum {string}
+         */
+        SuggestionSource: "openai" | "rules";
+        /**
+         * SuggestionStatus
+         * @enum {string}
+         */
+        SuggestionStatus: "suggested" | "accepted" | "dismissed";
         /** Token */
         Token: {
             /** Access Token */
@@ -296,6 +1201,805 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_clients_api_clients_get: {
+        parameters: {
+            query?: {
+                /** @description Search name, email, phone or city */
+                q?: string | null;
+                client_type?: string | null;
+                stage?: components["schemas"]["LeadStage"] | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientListItem"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_client_api_clients_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClientCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_client_api_clients__client_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_client_api_clients__client_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_client_api_clients__client_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClientUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_interaction_api_clients__client_id__interactions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InteractionCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InteractionRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_interest_api_clients__client_id__interests_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InterestCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InterestRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_interest_api_clients__client_id__interests__interest_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+                interest_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    client_matches_api_clients__client_id__matches_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyMatch"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_properties_api_properties_get: {
+        parameters: {
+            query?: {
+                /** @description Search address, city or ZIP */
+                q?: string | null;
+                city?: string | null;
+                min_price?: number | null;
+                max_price?: number | null;
+                min_beds?: number | null;
+                min_baths?: number | null;
+                status?: components["schemas"]["PropertyStatus"] | null;
+                sort?: "price_asc" | "price_desc" | "newest" | "size_desc";
+                page?: number;
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyPage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_property_api_properties_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PropertyCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_cities_api_properties_cities_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CityCount"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_property_api_properties__property_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                property_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_property_api_properties__property_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                property_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_property_api_properties__property_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                property_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PropertyUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_leads_api_leads_get: {
+        parameters: {
+            query?: {
+                stage?: components["schemas"]["LeadStage"] | null;
+                /** @description Search client name or city */
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadCard"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_lead_api_leads_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeadCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stage_summary_api_leads_summary_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StageCount"][];
+                };
+            };
+        };
+    };
+    read_lead_api_leads__lead_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_lead_api_leads__lead_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeadUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    move_lead_api_leads__lead_id__move_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeadMove"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ai_status_api_ai_status_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AiStatus"];
+                };
+            };
+        };
+    };
+    next_step_api_leads__lead_id__ai_next_step_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuggestionRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_suggestions_api_leads__lead_id__ai_suggestions_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuggestionRead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    decide_api_ai_suggestions__suggestion_id__decision_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                suggestion_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SuggestionDecision"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuggestionRead"];
                 };
             };
             /** @description Validation Error */
