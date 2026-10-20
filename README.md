@@ -4,7 +4,7 @@ AI-enhanced real estate CRM and lead management platform.
 CPSC-8985 Graduate Seminar Project, Governors State University (Team 2).
 
 **Stack:** React + TypeScript (Vite) · FastAPI · PostgreSQL · OpenAI API
-**Status:** Milestone 2 done: client management, property listings, lead pipeline and the AI Next Step. See [docs/phases.md](docs/phases.md).
+**Status:** Phase 3. The CRM covers a deal end to end (clients, listings, pipeline, calendar, offers) with an AI assistant that suggests the next step. This phase added the evidence: API inventory, security matrix and an AI vs rules evaluation. See [docs/phase3-requirements.md](docs/phase3-requirements.md).
 
 **Windows?** Follow [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md).
 
@@ -73,6 +73,17 @@ python -m app.scripts.seed_demo      # 2 demo agents, 40 clients, leads in every
 
 Demo agent logins: `maria.lopez@propconnect-demo.com` and `james.carter@propconnect-demo.com`,
 password `DEMO_PASSWORD` from `.env` (default `DemoAgent2026`).
+
+### Phase 3 evidence
+
+| What | How to regenerate | Where it lands |
+| --- | --- | --- |
+| API inventory | `python -m app.scripts.api_inventory` | docs/api-inventory.md |
+| Security matrix | `python -m app.scripts.security_report` | docs/security-matrix.md |
+| Sample AI exchange | `python -m app.scripts.ai_sample` | docs/ai-sample.md |
+| AI vs rules evaluation | `python -m app.scripts.seed_eval --reset`, then `run_eval`, then `score_eval` | docs/eval/ |
+
+Read more: [AI design](docs/ai-design.md) · [Security](docs/security.md) · [Evaluation plan](docs/ai-evaluation.md) · [ER diagram](docs/erd.md) · [Demo workflow](docs/demo-workflow.md) · [Traceability](docs/traceability.md)
 
 ### AI Next Step
 

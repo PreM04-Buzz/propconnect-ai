@@ -10,8 +10,8 @@ CRM-core milestone, as the professor requested.
 |---|---|---|
 | 1 Foundation | Repo, CI, schema + migrations, JWT auth, roles, React shell | Done |
 | 2 CRM core + first AI feature | Clients, listings, lead pipeline, data import, rule-based scoring and matching, AI Next Step | Done |
-| 3 Scheduling and offers | Calendar, viewings, conflict detection, offers | Next |
-| 4 AI depth | Interaction summaries, AI explanations of matches, prompt evaluation | Planned |
+| 3 Evidence, scheduling and offers | API inventory, AI transparency, security matrix, AI vs rules evaluation, calendar, offers | Built; evaluation ratings in progress |
+| 4 Market trends and polish | Zillow trend chart, calendar drag-and-drop, AI prompt improvements from the evaluation | Next |
 | 5 Dashboard and analytics | Conversion charts, Zillow market trends | Planned |
 | 6 Evaluation and finalization | AI scenario evaluation log, security review, demo | Planned |
 
@@ -28,3 +28,7 @@ CRM-core milestone, as the professor requested.
       accept (logs to timeline) or dismiss; every suggestion stored; rule-based fallback
 - [x] Agents see only their own clients and leads; brokers see everything
 - [x] 30 automated tests
+
+## Milestone 3 (Phase 3)
+
+See [phase3-requirements.md](phase3-requirements.md) for every requirement and its status. In short: 38 endpoints, all tested and listed in [api-inventory.md](api-inventory.md); 136 security checks passing ([security-matrix.md](security-matrix.md)); the AI hardened with first-name-only input, untrusted notes and a grounding check ([ai-design.md](ai-design.md)); a 15-scenario AI vs rules evaluation ready to run ([ai-evaluation.md](ai-evaluation.md)); and appointments and offers that move the pipeline on their own. 60 automated tests.

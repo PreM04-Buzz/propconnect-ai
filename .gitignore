@@ -15,6 +15,7 @@ dist/
 # Data (raw files are large; keep them out of git)
 data/raw/
 data/processed/
+data/eval/
 *.sqlite3
 # OS / editors
 .DS_Store

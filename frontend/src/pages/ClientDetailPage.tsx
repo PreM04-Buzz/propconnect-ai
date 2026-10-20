@@ -69,7 +69,7 @@ export function ClientDetailPage() {
       <div className="page-head">
         <div>
           <h1>{c.first_name} {c.last_name}</h1>
-          <p className="muted cap">{c.client_type} · {c.email ?? "no email"} · {c.phone ?? "no phone"}</p>
+          <p className="muted"><span className="cap">{c.client_type}</span> · {c.email ?? "no email"} · {c.phone ?? "no phone"}</p>
         </div>
         <div className="actions">
           {lead && <Link className="button" to={`/leads/${lead.id}`}>Open lead and AI next step</Link>}

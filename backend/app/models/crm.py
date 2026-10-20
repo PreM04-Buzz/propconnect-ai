@@ -134,4 +134,6 @@ class Offer(TimestampMixin, Base):
     amount: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     status: Mapped[OfferStatus] = mapped_column(_enum(OfferStatus), default=OfferStatus.draft)
     submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    counter_amount: Mapped[Decimal | None] = mapped_column(Numeric(12, 2))  # the seller's counter
+    decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     notes: Mapped[str | None] = mapped_column(Text)

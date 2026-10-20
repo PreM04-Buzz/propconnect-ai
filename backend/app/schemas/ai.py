@@ -25,6 +25,9 @@ class SuggestionRead(ORMModel):
     client_id: int
     source: SuggestionSource
     model: str | None
+    prompt_version: str | None
+    grounded: bool | None
+    grounding_notes: str | None
     intent_level: str
     summary: str
     recommended_action: str

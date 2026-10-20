@@ -21,6 +21,11 @@ export type StageCount = S["StageCount"];
 export type Suggestion = S["SuggestionRead"];
 export type FinancingStatus = S["FinancingStatus"];
 export type ClientType = S["ClientType"];
+export type Appointment = S["AppointmentRead"];
+export type AppointmentType = S["AppointmentType"];
+export type AppointmentStatus = S["AppointmentStatus"];
+export type Offer = S["OfferRead"];
+export type OfferStatus = S["OfferStatus"];
 
 // Access token lives in sessionStorage: it survives a refresh but is cleared when the tab closes.
 const TOKEN_KEY = "propconnect.token";

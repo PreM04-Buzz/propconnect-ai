@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, Enum, ForeignKey, String, Text
+from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin
@@ -21,6 +21,10 @@ class AiSuggestion(TimestampMixin, Base):
     agent_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     source: Mapped[SuggestionSource] = mapped_column(Enum(SuggestionSource, native_enum=False, length=20))
     model: Mapped[str | None] = mapped_column(String(80))
+    prompt_version: Mapped[str | None] = mapped_column(String(20))
+    # Did every price, address and date in the answer appear in the facts we sent?
+    grounded: Mapped[bool | None] = mapped_column(Boolean)
+    grounding_notes: Mapped[str | None] = mapped_column(Text)
     intent_level: Mapped[str] = mapped_column(String(10))  # high / medium / low
     summary: Mapped[str] = mapped_column(Text)
     recommended_action: Mapped[str] = mapped_column(Text)

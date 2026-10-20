@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { AppLayout } from "./components/AppLayout";
+import { AccountPage } from "./pages/AccountPage";
+import { CalendarPage } from "./pages/CalendarPage";
+import { OffersPage } from "./pages/OffersPage";
 import { ClientDetailPage } from "./pages/ClientDetailPage";
 import { ClientNewPage } from "./pages/ClientNewPage";
 import { ClientsPage } from "./pages/ClientsPage";
@@ -27,6 +30,9 @@ export default function App() {
         <Route path="properties" element={<PropertiesPage />} />
         <Route path="properties/new" element={<PropertyNewPage />} />
         <Route path="properties/:id" element={<PropertyDetailPage />} />
+        <Route path="calendar" element={<CalendarPage />} />
+        <Route path="offers" element={<OffersPage />} />
+        <Route path="account" element={<AccountPage />} />
         <Route path="team" element={<ProtectedRoute roles={["admin"]}><TeamPage /></ProtectedRoute>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

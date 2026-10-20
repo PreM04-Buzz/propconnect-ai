@@ -1,11 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-const upcoming = [
-  { label: "Calendar", phase: 3 },
-  { label: "Offers", phase: 3 },
-  { label: "Analytics", phase: 6 },
-];
+const upcoming = [{ label: "Market trends", phase: 4 }];
 
 export function AppLayout() {
   const { user, signOut } = useAuth();
@@ -20,16 +16,18 @@ export function AppLayout() {
           <NavLink to="/pipeline">Lead pipeline</NavLink>
           <NavLink to="/clients">Clients</NavLink>
           <NavLink to="/properties">Properties</NavLink>
+          <NavLink to="/calendar">Calendar</NavLink>
+          <NavLink to="/offers">Offers</NavLink>
           {user?.role === "admin" && <NavLink to="/team">Team</NavLink>}
           {upcoming.map((m) => (
-            <span key={m.label} className="nav-soon" title={`Available in phase ${m.phase}`}>
-              {m.label} <small>Phase {m.phase}</small>
+            <span key={m.label} className="nav-soon" title="Coming in a later phase">
+              {m.label} <small>Later</small>
             </span>
           ))}
         </nav>
         <div className="sidebar-user">
           <div>{user?.full_name}</div>
-          <small>{user?.role === "admin" ? "Broker / admin" : "Agent"}</small>
+          <small>{user?.role === "admin" ? "Broker / admin" : "Agent"} · <NavLink to="/account" className="quiet-link">Account</NavLink></small>
           <button className="link-button" onClick={signOut}>Sign out</button>
         </div>
       </aside>
