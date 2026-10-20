@@ -1,0 +1,46 @@
+scenario,answer,recommended_action,draft_message,grounded_1to4,right_action_1to4,specific_1to4,draft_quality_1to4,rater,comment
+1,A,"Call Daniel to introduce yourself and confirm budget, timeline and financing.","Hi Daniel, thanks for reaching out! I'd love to learn more about what you're looking for in Chicago. Do you have 15 minutes this week for a quick call?
+
+Maya",,,,,,
+2,A,"Confirm Grace's budget and financing, and suggest a lender for pre-approval.","Hi Grace, to make sure we focus on the right homes, could we confirm your budget and financing? I'm happy to connect you with a lender for pre-approval.
+
+Maya",,,,,,
+3,A,"Schedule viewings for 4254 Jackson Ct, Chicago and 8147 Walnut Pl, Chicago.","Hi Aisha, would you like to see 4254 Jackson Ct, Chicago and 8147 Walnut Pl, Chicago in person? I have openings this week and can arrange the visits back to back.
+
+Maya",,,,,,
+4,A,"Send Marcus these matching listings: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000).","Hi Marcus, I found a few homes that match what you described: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000). Let me know which ones you'd like to see!
+
+Maya",,,,,,
+5,A,"Talk with Sofia about making an offer on 7510 Chestnut Blvd, Chicago, or booking a second visit.","Hi Sofia, what did you think after seeing 7510 Chestnut Blvd, Chicago? If it's the one, I can help you put together a strong offer, or we can go back for a second look.
+
+Maya",,,,,,
+6,A,"Call Ethan today to decide how to answer the seller's counter of $303,800 on 6075 Prairie Pl, Chicago.","Hi Ethan, the seller came back at $303,800 on 6075 Prairie Pl, Chicago. Can we talk today about how you'd like to respond?
+
+Maya",,,,,,
+7,A,"Send Hannah these matching listings: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000).","Hi Hannah, I found a few homes that match what you described: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000). Let me know which ones you'd like to see!
+
+Maya",,,,,,
+8,A,Book a call with Robert to review pricing and prepare the listing.,"Hi Robert, I'd love to walk you through recent sales nearby and a plan for listing your home. Do you have 20 minutes this week?
+
+Maya",,,,,,
+9,A,"Talk with Priya about widening the search: area, budget or bedrooms.","Hi Priya, the market is tight for exactly what you described. Could we talk about a few nearby areas or adjusting the must-haves so we don't miss good options?
+
+Maya",,,,,,
+10,A,"Confirm Owen's budget and financing, and suggest a lender for pre-approval.","Hi Owen, to make sure we focus on the right homes, could we confirm your budget and financing? I'm happy to connect you with a lender for pre-approval.
+
+Maya",,,,,,
+11,A,"Send Lena these matching listings: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000).","Hi Lena, I found a few homes that match what you described: 1902 Chestnut Ln, Chicago ($405,000); 9225 Jefferson Ln, Chicago ($400,000); 6365 Cedar Rd, Chicago ($400,000). Let me know which ones you'd like to see!
+
+Maya",,,,,,
+12,A,Close Carlos's file politely and leave the door open.,"Hi Carlos, thanks again for letting me help with your search. If anything changes, I'm always happy to talk.
+
+Maya",,,,,,
+13,A,"Schedule viewings for 1786 Meadow Ave, Chicago.","Hi Nora, would you like to see 1786 Meadow Ave, Chicago in person? I have openings this week and can arrange the visits back to back.
+
+Maya",,,,,,
+14,A,"Confirm Sam's budget and financing, and suggest a lender for pre-approval.","Hi Sam, to make sure we focus on the right homes, could we confirm your budget and financing? I'm happy to connect you with a lender for pre-approval.
+
+Maya",,,,,,
+15,A,Check in with Julia after closing and ask for a referral or review.,"Hi Julia, congratulations again on your new home! How is everything going so far? If you know anyone else thinking of buying or selling, I'd be glad to help.
+
+Maya",,,,,,

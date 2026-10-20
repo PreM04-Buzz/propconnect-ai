@@ -22,3 +22,8 @@ class UserRead(UserBase):
     email: str  # plain str on output so a stored address never breaks a response
     is_active: bool
     created_at: datetime
+
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=8, max_length=128)

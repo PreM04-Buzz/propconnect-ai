@@ -77,6 +77,13 @@ python -m app.scripts.load_data
 python -m app.scripts.seed_demo
 ```
 
+## 5b. Phase 3 evaluation data (optional)
+
+```powershell
+python -m app.scripts.seed_eval
+python -m app.scripts.run_eval
+```
+
 ## 6. Frontend (PowerShell window 3)
 
 ```powershell
@@ -104,4 +111,6 @@ Open http://localhost:5173 and sign in as an agent:
 | `connection refused` on `alembic upgrade` | Docker Desktop isn't running yet, or the container is still starting |
 | Forgot a password | `python -m app.scripts.reset_password admin@propconnect-demo.com NewPassword123` |
 | Want fresh demo data | `python -m app.scripts.seed_demo --reset` |
+| Updating to a new version of the code | In `backend`: `pip install -r requirements-dev.txt` then `alembic upgrade head`; in `frontend`: `npm install` |
+| "Too many failed sign-in attempts" | Wait one minute, or restart the backend |
 | Line ending warnings from Git | Harmless. Optional: `git config --global core.autocrlf true` |

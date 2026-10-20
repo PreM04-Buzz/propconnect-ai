@@ -65,10 +65,14 @@ export function AiNextStep({ leadId, onDecided }: { leadId: number; onDecided: (
           <div className="ai-tags">
             <span className={`badge priority-${current.intent_level}`}>{current.intent_level} intent</span>
             <span className="badge">{ACTION_LABEL[current.action_type] ?? current.action_type}</span>
-            <span className="badge source" title={current.source === "rules" ? "No AI key configured or the AI was unavailable" : ""}>
-              {current.source === "openai" ? `AI · ${current.model}` : "Rule-based fallback"}
+            <span className="badge source" title={current.source === "rules" ? "No AI key configured, or the AI's answer didn't pass our checks" : ""}>
+              {current.source === "openai" ? `AI · ${current.model}` : "Rule-based"}
             </span>
+            {current.grounded && <span className="badge priority-high no-cap" title="Every price, address and date in this answer comes from the client's data">Checked against client data</span>}
           </div>
+          {current.source === "rules" && current.grounding_notes?.startsWith("AI answer rejected") && (
+            <p className="notice small">The AI's answer didn't pass our checks, so this is the rule-based suggestion. ({current.grounding_notes.replace("AI answer rejected, rule-based used instead: ", "")})</p>
+          )}
           <p className="ai-summary">{current.summary}</p>
           <div className="ai-action">
             <span className="label">Recommended</span>

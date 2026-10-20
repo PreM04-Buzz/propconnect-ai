@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api, errorMessage, type LeadDetail, type LeadStage } from "../api/client";
 import { AiNextStep } from "../components/AiNextStep";
+import { LeadDeal } from "../components/LeadDeal";
 import { PriorityBadge, ScoreRing } from "../components/Badges";
 import { financingLabel, money, shortDate, STAGES, stageLabel } from "../lib/format";
 
@@ -100,6 +101,7 @@ export function LeadDetailPage() {
           </div>
         </div>
       </div>
+      <LeadDeal leadId={id} clientId={c.id} onChanged={load} />
     </section>
   );
 }

@@ -9,6 +9,7 @@ from app.schemas.lead import (
     LeadCard, LeadCreate, LeadDetail, LeadMove, LeadUpdate, ScoreItemRead, StageCount, StageHistoryRead,
 )
 from app.services.lead_scoring import compute_score, refresh_client_leads
+from app.services.pipeline import move
 
 router = APIRouter(prefix="/leads", tags=["leads"])
 
@@ -102,8 +103,6 @@ def move_lead(lead_id: int, payload: LeadMove, db: DbSession, user: CurrentUser)
         return lead_detail(db, lead)
     if payload.to_stage == LeadStage.lost and not (payload.lost_reason or "").strip():
         raise HTTPException(422, "Please give a reason when marking a lead as lost.")
-    db.add(LeadStageHistory(lead_id=lead.id, from_stage=lead.stage, to_stage=payload.to_stage, changed_by_id=user.id))
-    lead.stage = payload.to_stage
-    lead.lost_reason = payload.lost_reason.strip() if payload.to_stage == LeadStage.lost else None
+    move(db, lead, payload.to_stage, user, (payload.lost_reason or "").strip() or None)
     db.commit()
     return lead_detail(db, lead)

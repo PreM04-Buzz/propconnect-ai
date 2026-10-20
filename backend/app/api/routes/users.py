@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
-from app.api.deps import AdminUser, DbSession
-from app.core.security import hash_password
+from app.api.deps import AdminUser, CurrentUser, DbSession
+from app.core.security import hash_password, verify_password
 from app.models import User
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import PasswordChange, UserCreate, UserRead
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -30,3 +30,14 @@ def create_user(payload: UserCreate, db: DbSession, _: AdminUser) -> User:
     db.commit()
     db.refresh(user)
     return user
+
+
+@router.post("/me/password", status_code=status.HTTP_204_NO_CONTENT)
+def change_my_password(payload: PasswordChange, db: DbSession, user: CurrentUser) -> None:
+    """Anyone can change their own password, as long as they know the current one."""
+    if not verify_password(payload.current_password, user.hashed_password):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Your current password isn't right.")
+    if payload.new_password == payload.current_password:
+        raise HTTPException(422, "Pick a password different from the current one.")
+    user.hashed_password = hash_password(payload.new_password)
+    db.commit()

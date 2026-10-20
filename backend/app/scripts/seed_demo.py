@@ -12,17 +12,17 @@ import argparse
 import random
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, update
 
 from app.core.config import get_settings
 from app.core.security import hash_password
 from app.db.session import SessionLocal
 from app.models import (
-    AiSuggestion, Appointment, Client, Interaction, Lead, LeadStageHistory, Property, PropertyInterest, User,
+    AiSuggestion, Appointment, Client, Interaction, Lead, LeadStageHistory, Offer, Property, PropertyInterest, User,
 )
 from app.models.enums import (
-    AppointmentStatus, AppointmentType, ClientType, FinancingStatus, InteractionType, LeadStage, PropertyStatus,
-    UserRole,
+    AppointmentStatus, AppointmentType, ClientType, FinancingStatus, InteractionType, LeadStage, OfferStatus,
+    PropertyStatus, UserRole,
 )
 from app.services.lead_scoring import refresh_client_leads
 from app.services.matching import top_matches
@@ -78,7 +78,10 @@ def main() -> None:
             agents.append(user)
         ids = [a.id for a in agents]
         client_ids = select(Client.id).where(Client.agent_id.in_(ids))
-        for model in (AiSuggestion, Appointment, Interaction, PropertyInterest):
+        # Put homes sold by our own demo offers back on the market before removing those offers.
+        sold_by_us = select(Offer.property_id).where(Offer.client_id.in_(client_ids), Offer.status == OfferStatus.accepted)
+        db.execute(update(Property).where(Property.id.in_(sold_by_us)).values(status=PropertyStatus.for_sale))
+        for model in (AiSuggestion, Appointment, Interaction, PropertyInterest, Offer):
             db.execute(delete(model).where(model.client_id.in_(client_ids)))
         lead_ids = select(Lead.id).where(Lead.agent_id.in_(ids))
         db.execute(delete(AiSuggestion).where(AiSuggestion.lead_id.in_(lead_ids)))
@@ -175,6 +178,34 @@ def main() -> None:
                                            ends_at=t + timedelta(minutes=45),
                                            outcome=rng.choice(["Liked the layout", "Kitchen needs work",
                                                                "Wants a second visit"])))
+            # Phase 3: something on the calendar and offers in every state.
+            db.flush()
+            shortlist = list(db.scalars(select(PropertyInterest).where(PropertyInterest.client_id == c.id)))
+            if shortlist and (stage == LeadStage.proposal or (stage == LeadStage.qualified and rng.random() < 0.6)):
+                day = (now + timedelta(days=rng.randint(1, 5))).replace(hour=rng.choice([10, 13, 16]), minute=0,
+                                                                          second=0, microsecond=0)
+                if not db.scalar(select(Appointment.id).where(Appointment.agent_id == agent.id,
+                                                              Appointment.status == AppointmentStatus.scheduled,
+                                                              Appointment.starts_at < day + timedelta(hours=1),
+                                                              Appointment.ends_at > day)):
+                    db.add(Appointment(agent_id=agent.id, client_id=c.id, property_id=shortlist[0].property_id,
+                                       appointment_type=AppointmentType.viewing, starts_at=day,
+                                       ends_at=day + timedelta(hours=1), notes="Second look before deciding."))
+            if shortlist and stage in (LeadStage.negotiation, LeadStage.won):
+                p = db.get(Property, shortlist[0].property_id)
+                if p.status == PropertyStatus.for_sale:
+                    price = float(p.price)
+                    if stage == LeadStage.won:
+                        p.status = PropertyStatus.sold
+                        db.add(Offer(client_id=c.id, property_id=p.id, lead_id=lead.id, amount=round(price * 0.98, -3),
+                                     status=OfferStatus.accepted, submitted_at=last - timedelta(days=6),
+                                     decided_at=last - timedelta(days=4)))
+                    else:
+                        countered = rng.random() < 0.5
+                        db.add(Offer(client_id=c.id, property_id=p.id, lead_id=lead.id, amount=round(price * 0.95, -3),
+                                     status=OfferStatus.countered if countered else OfferStatus.submitted,
+                                     counter_amount=round(price * 0.98, -3) if countered else None,
+                                     submitted_at=last - timedelta(days=2)))
             if stage == LeadStage.contacted and rng.random() < 0.5:
                 db.add(Interaction(client_id=c.id, agent_id=agent.id, interaction_type=InteractionType.text,
                                    summary="Sent a quick check-in text.", occurred_at=now - timedelta(days=rng.randint(1, 20))))

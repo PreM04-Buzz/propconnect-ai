@@ -85,3 +85,25 @@ BUYER = {
     "budget_min": 300000, "budget_max": 400000, "budget_confirmed": True, "preferred_city": "Naperville",
     "min_bedrooms": 2, "financing_status": "pre_approved", "purchase_timeline_months": 2,
 }
+
+
+@pytest.fixture(autouse=True)
+def _fresh_login_guard():
+    from app.core import login_guard
+    login_guard.reset()
+    yield
+    login_guard.reset()
+
+
+def new_client(client, headers, **over):
+    body = {**BUYER, **over}
+    r = client.post("/api/clients", json=body, headers=headers)
+    assert r.status_code == 201, r.text
+    data = r.json()
+    return data["id"], data["leads"][0]["id"]
+
+
+def at(days: int, hour: int = 10, minutes: int = 0) -> str:
+    from datetime import datetime, timedelta, timezone
+    base = datetime.now(timezone.utc).replace(hour=hour, minute=minutes, second=0, microsecond=0)
+    return (base + timedelta(days=days)).isoformat()

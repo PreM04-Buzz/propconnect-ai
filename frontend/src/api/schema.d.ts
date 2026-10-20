@@ -79,6 +79,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/users/me/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change My Password
+         * @description Anyone can change their own password, as long as they know the current one.
+         */
+        post: operations["change_my_password_api_users_me_password_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/clients": {
         parameters: {
             query?: never;
@@ -311,6 +331,105 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/appointments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Appointments */
+        get: operations["list_appointments_api_appointments_get"];
+        put?: never;
+        /** Create Appointment */
+        post: operations["create_appointment_api_appointments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/appointments/{appointment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Appointment
+         * @description Reschedule or edit notes. Only scheduled appointments can be moved.
+         */
+        patch: operations["update_appointment_api_appointments__appointment_id__patch"];
+        trace?: never;
+    };
+    "/api/appointments/{appointment_id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change Status
+         * @description Complete, cancel or mark a no-show. Completed viewings need feedback and count towards the lead score.
+         */
+        post: operations["change_status_api_appointments__appointment_id__status_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/offers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Offers */
+        get: operations["list_offers_api_offers_get"];
+        put?: never;
+        /**
+         * Create Offer
+         * @description Make an offer for a client. Submitting it moves the client's lead to Negotiation.
+         */
+        post: operations["create_offer_api_offers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/offers/{offer_id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change Status
+         * @description Move an offer along. Accepting it closes the deal: the lead is Won and the property is sold.
+         */
+        post: operations["change_status_api_offers__offer_id__status_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/ai/status": {
         parameters: {
             query?: never;
@@ -395,6 +514,90 @@ export interface components {
             ai_enabled: boolean;
             /** Model */
             model: string | null;
+        };
+        /** AppointmentCreate */
+        AppointmentCreate: {
+            /** Client Id */
+            client_id: number;
+            /** Property Id */
+            property_id?: number | null;
+            /** @default viewing */
+            appointment_type: components["schemas"]["AppointmentType"];
+            /**
+             * Starts At
+             * Format: date-time
+             */
+            starts_at: string;
+            /**
+             * Ends At
+             * Format: date-time
+             */
+            ends_at: string;
+            /** Notes */
+            notes?: string | null;
+        };
+        /** AppointmentRead */
+        AppointmentRead: {
+            /** Id */
+            id: number;
+            /** Agent Id */
+            agent_id: number;
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Lead Id */
+            lead_id: number | null;
+            /** Property Id */
+            property_id: number | null;
+            /** Property Address */
+            property_address: string | null;
+            appointment_type: components["schemas"]["AppointmentType"];
+            status: components["schemas"]["AppointmentStatus"];
+            /**
+             * Starts At
+             * Format: date-time
+             */
+            starts_at: string;
+            /**
+             * Ends At
+             * Format: date-time
+             */
+            ends_at: string;
+            /** Notes */
+            notes: string | null;
+            /** Outcome */
+            outcome: string | null;
+        };
+        /**
+         * AppointmentStatus
+         * @enum {string}
+         */
+        AppointmentStatus: "scheduled" | "completed" | "cancelled" | "no_show";
+        /** AppointmentStatusChange */
+        AppointmentStatusChange: {
+            status: components["schemas"]["AppointmentStatus"];
+            /**
+             * Outcome
+             * @description Feedback after a viewing
+             */
+            outcome?: string | null;
+        };
+        /**
+         * AppointmentType
+         * @enum {string}
+         */
+        AppointmentType: "viewing" | "meeting" | "follow_up";
+        /** AppointmentUpdate */
+        AppointmentUpdate: {
+            /** Starts At */
+            starts_at?: string | null;
+            /** Ends At */
+            ends_at?: string | null;
+            /** Property Id */
+            property_id?: number | null;
+            /** Notes */
+            notes?: string | null;
         };
         /** Body_login_api_auth_login_post */
         Body_login_api_auth_login_post: {
@@ -840,6 +1043,85 @@ export interface components {
             /** Source */
             source?: string | null;
         };
+        /** OfferCreate */
+        OfferCreate: {
+            /** Client Id */
+            client_id: number;
+            /** Property Id */
+            property_id: number;
+            /** Amount */
+            amount: number;
+            /** Notes */
+            notes?: string | null;
+            /**
+             * Submit
+             * @description Submit now, or keep as a draft
+             * @default true
+             */
+            submit: boolean;
+        };
+        /** OfferRead */
+        OfferRead: {
+            /** Id */
+            id: number;
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Property Id */
+            property_id: number;
+            /** Property Address */
+            property_address: string;
+            /** List Price */
+            list_price: number | null;
+            /** Lead Id */
+            lead_id: number | null;
+            lead_stage: components["schemas"]["LeadStage"] | null;
+            /** Amount */
+            amount: number;
+            /** Counter Amount */
+            counter_amount: number | null;
+            status: components["schemas"]["OfferStatus"];
+            /** Submitted At */
+            submitted_at: string | null;
+            /** Decided At */
+            decided_at: string | null;
+            /** Notes */
+            notes: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /**
+         * OfferStatus
+         * @enum {string}
+         */
+        OfferStatus: "draft" | "submitted" | "countered" | "accepted" | "rejected" | "withdrawn";
+        /** OfferStatusChange */
+        OfferStatusChange: {
+            status: components["schemas"]["OfferStatus"];
+            /**
+             * Amount
+             * @description A revised amount when resubmitting
+             */
+            amount?: number | null;
+            /**
+             * Counter Amount
+             * @description Required when the seller counters
+             */
+            counter_amount?: number | null;
+            /** Notes */
+            notes?: string | null;
+        };
+        /** PasswordChange */
+        PasswordChange: {
+            /** Current Password */
+            current_password: string;
+            /** New Password */
+            new_password: string;
+        };
         /** PropertyCreate */
         PropertyCreate: {
             /** @default for_sale */
@@ -986,6 +1268,12 @@ export interface components {
             source: components["schemas"]["SuggestionSource"];
             /** Model */
             model: string | null;
+            /** Prompt Version */
+            prompt_version: string | null;
+            /** Grounded */
+            grounded: boolean | null;
+            /** Grounding Notes */
+            grounding_notes: string | null;
             /** Intent Level */
             intent_level: string;
             /** Summary */
@@ -1202,6 +1490,37 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["UserRead"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_my_password_api_users_me_password_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {
@@ -1883,6 +2202,247 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_appointments_api_appointments_get: {
+        parameters: {
+            query?: {
+                /** @description From this time (e.g. Monday 00:00) */
+                start?: string | null;
+                /** @description Up to this time */
+                end?: string | null;
+                client_id?: number | null;
+                /** @description Brokers only: one agent's calendar */
+                agent_id?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AppointmentRead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_appointment_api_appointments_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AppointmentCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AppointmentRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_appointment_api_appointments__appointment_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appointment_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AppointmentUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AppointmentRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_status_api_appointments__appointment_id__status_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appointment_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AppointmentStatusChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AppointmentRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_offers_api_offers_get: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["OfferStatus"] | null;
+                client_id?: number | null;
+                lead_id?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferRead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_offer_api_offers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfferCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_status_api_offers__offer_id__status_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                offer_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfferStatusChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferRead"];
                 };
             };
             /** @description Validation Error */
