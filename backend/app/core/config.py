@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -25,6 +26,18 @@ class Settings(BaseSettings):
     ai_timeout_seconds: float = 20.0
     login_max_attempts: int = 5
     login_window_seconds: int = 60
+    # Each user can ask the AI this many times per hour. Protects the OpenAI bill on a public site.
+    ai_requests_per_hour: int = 30
+
+    @field_validator("database_url")
+    @classmethod
+    def use_psycopg_driver(cls, v: str) -> str:
+        """Hosted databases (Neon, Render, Heroku) hand out postgres:// or postgresql:// URLs.
+        SQLAlchemy needs to be told to use the psycopg 3 driver we install."""
+        for prefix in ("postgres://", "postgresql://"):
+            if v.startswith(prefix):
+                return "postgresql+psycopg://" + v[len(prefix):]
+        return v
 
     @property
     def cors_origin_list(self) -> list[str]:

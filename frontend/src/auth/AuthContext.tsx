@@ -35,12 +35,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = useCallback(
     async (email: string, password: string) => {
-      const { data, error } = await api.POST("/api/auth/login", {
-        body: { username: email, password, scope: "" },
-        bodySerializer: (b) => new URLSearchParams(b as Record<string, string>),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
-      if (!data) throw new Error(errorMessage(error, "Incorrect email or password."));
+      let result;
+      try {
+        result = await api.POST("/api/auth/login", {
+          body: { username: email, password, scope: "" },
+          bodySerializer: (b) => new URLSearchParams(b as Record<string, string>),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        });
+      } catch {
+        throw new Error("Can't reach the server right now. Check your connection and try again in a moment.");
+      }
+      const { data, error, response } = result;
+      if (!data) {
+        // Only a 401 means the email or password is wrong; anything else is a server problem.
+        if (response.status === 401) throw new Error("Incorrect email or password.");
+        throw new Error(errorMessage(error, `The server had a problem (error ${response.status}). Please try again.`));
+      }
       tokenStore.set(data.access_token);
       await loadMe();
     },

@@ -89,10 +89,12 @@ BUYER = {
 
 @pytest.fixture(autouse=True)
 def _fresh_login_guard():
-    from app.core import login_guard
+    from app.core import login_guard, rate_limit
     login_guard.reset()
+    rate_limit.reset()
     yield
     login_guard.reset()
+    rate_limit.reset()
 
 
 def new_client(client, headers, **over):

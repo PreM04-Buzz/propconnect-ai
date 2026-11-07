@@ -12,6 +12,7 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [slow, setSlow] = useState(false);
 
   if (user) return <Navigate to={from} replace />;
 
@@ -19,12 +20,16 @@ export function LoginPage() {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
+    // The free server sleeps when nobody uses it and takes up to a minute to wake.
+    const timer = setTimeout(() => setSlow(true), 4000);
     try {
       await signIn(email, password);
       navigate(from, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign-in failed.");
     } finally {
+      clearTimeout(timer);
+      setSlow(false);
       setSubmitting(false);
     }
   }
@@ -47,6 +52,7 @@ export function LoginPage() {
                  onChange={(e) => setPassword(e.target.value)} />
         </label>
         {error && <p className="error" role="alert">{error}</p>}
+        {slow && <p className="notice" role="status">Waking up the server. The first sign-in after a quiet spell can take up to a minute.</p>}
         <button type="submit" disabled={submitting || !email || !password}>
           {submitting ? "Signing in…" : "Sign in"}
         </button>

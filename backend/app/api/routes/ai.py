@@ -5,6 +5,7 @@ from sqlalchemy import select
 
 from app.api.deps import CurrentUser, DbSession, ensure_owner
 from app.api.routes.leads import get_lead
+from app.core import rate_limit
 from app.core.config import get_settings
 from app.models import AiSuggestion, Client, Interaction
 from app.models.enums import InteractionType, SuggestionStatus
@@ -30,6 +31,10 @@ def ai_status(_: CurrentUser) -> AiStatus:
 def next_step(lead_id: int, db: DbSession, user: CurrentUser) -> AiSuggestion:
     """Ask the AI Lead Assistant for the single most useful next step on this lead."""
     lead = get_lead(db, lead_id, user)
+    limit = get_settings().ai_requests_per_hour
+    if not rate_limit.allow(f"ai:{user.id}", limit):
+        raise HTTPException(status.HTTP_429_TOO_MANY_REQUESTS,
+                            f"You've reached the limit of {limit} AI suggestions per hour. Please try again later.")
     return generate_suggestion(db, lead, user)
 
 

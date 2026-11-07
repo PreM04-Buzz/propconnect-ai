@@ -11,6 +11,7 @@ Demo logins (password from DEMO_PASSWORD in .env, default DemoAgent2026):
 import argparse
 import random
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import delete, func, select, update
 
@@ -182,8 +183,9 @@ def main() -> None:
             db.flush()
             shortlist = list(db.scalars(select(PropertyInterest).where(PropertyInterest.client_id == c.id)))
             if shortlist and (stage == LeadStage.proposal or (stage == LeadStage.qualified and rng.random() < 0.6)):
-                day = (now + timedelta(days=rng.randint(1, 5))).replace(hour=rng.choice([10, 13, 16]), minute=0,
-                                                                          second=0, microsecond=0)
+                local = datetime.now(ZoneInfo("America/Chicago")) + timedelta(days=rng.randint(1, 5))
+                day = local.replace(hour=rng.choice([10, 13, 16]), minute=0, second=0,
+                                    microsecond=0).astimezone(timezone.utc)
                 if not db.scalar(select(Appointment.id).where(Appointment.agent_id == agent.id,
                                                               Appointment.status == AppointmentStatus.scheduled,
                                                               Appointment.starts_at < day + timedelta(hours=1),
