@@ -8,6 +8,8 @@ CPSC-8985 Graduate Seminar Project, Governors State University (Team 2).
 
 **Windows?** Follow [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md).
 
+**Live site:** frontend on GitHub Pages, backend on Render, database on Neon. Step by step: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ## Repository layout
 
 ```

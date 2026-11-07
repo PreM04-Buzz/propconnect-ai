@@ -56,7 +56,10 @@ const auth: Middleware = {
 };
 
 /** Typed client: paths, params and response bodies all come from FastAPI's OpenAPI schema. */
-export const api = createClient<paths>({ baseUrl: "" });
+// In development the Vite proxy forwards /api to the local backend, so the base is "".
+// The live site sets VITE_API_URL at build time, e.g. https://propconnect-api.onrender.com
+export const API_URL = (import.meta.env.VITE_API_URL ?? "").replace(/\/+$/, "");
+export const api = createClient<paths>({ baseUrl: API_URL });
 api.use(auth);
 
 export function errorMessage(error: unknown, fallback = "Something went wrong. Try again."): string {

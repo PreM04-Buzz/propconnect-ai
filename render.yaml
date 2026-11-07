@@ -1,0 +1,36 @@
+# Render Blueprint for the PropConnect AI backend.
+# In Render: New → Blueprint → pick this repository. Then fill in the values marked sync: false.
+services:
+  - type: web
+    name: propconnect-api
+    runtime: python
+    plan: free            # change to starter ($7/month) during the user study to avoid the 1-minute wake-up
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    # Migrations run on every start, so the database always matches the code.
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        sync: false         # paste the Neon connection string
+      - key: JWT_SECRET
+        generateValue: true # Render creates a long random secret
+      - key: CORS_ORIGINS
+        value: https://prem04-buzz.github.io
+      - key: ADMIN_EMAIL
+        value: admin@propconnect-demo.com
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: AI_REQUESTS_PER_HOUR
+        value: "30"
