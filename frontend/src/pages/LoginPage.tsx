@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { LoginArt } from "../components/LoginArt";
 
 export function LoginPage() {
   const { user, signIn } = useAuth();
@@ -36,11 +37,18 @@ export function LoginPage() {
 
   return (
     <div className="login">
+      <aside className="login-art">
+        <LoginArt />
+        <div className="login-art-copy">
+          <p className="login-art-brand">PropConnect <span>AI</span></p>
+          <p className="login-art-line">Every client, viewing and offer in one place, with a next step suggested for each lead.</p>
+        </div>
+      </aside>
+      <main className="login-main">
+      <div className="login-watermark" aria-hidden="true" />
       <form className="login-card" onSubmit={handleSubmit} noValidate>
-        <h1>
-          PropConnect <span>AI</span>
-        </h1>
-        <p className="muted">Sign in to manage your clients, listings and pipeline.</p>
+        <h1>Sign in</h1>
+        <p className="muted">Use the email and password your broker gave you.</p>
         <label>
           Email
           <input type="email" autoComplete="username" required value={email}
@@ -57,6 +65,7 @@ export function LoginPage() {
           {submitting ? "Signing in…" : "Sign in"}
         </button>
       </form>
+      </main>
     </div>
   );
 }
