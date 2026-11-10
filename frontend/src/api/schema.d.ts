@@ -99,6 +99,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/users/{user_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update User
+         * @description Brokers rename people, change agent and broker roles, and deactivate or reactivate accounts.
+         *     A deactivated person can’t sign in; their clients stay with them until reassigned.
+         */
+        patch: operations["update_user_api_users__user_id__patch"];
+        trace?: never;
+    };
     "/api/clients": {
         parameters: {
             query?: never;
@@ -504,6 +525,89 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/admin/team": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Team
+         * @description Everyone on the team, with how much each person is looking after.
+         */
+        get: operations["team_api_admin_team_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Clients To Assign
+         * @description Website requests waiting for an agent (default), or every client with their agent.
+         */
+        get: operations["clients_to_assign_api_admin_clients_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/clients/{client_id}/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Assign Client
+         * @description Give a client to an agent, or move them to another one. Their leads and upcoming
+         *     appointments move with them; refused if an appointment would clash with the new agent's calendar.
+         */
+        post: operations["assign_client_api_admin_clients__client_id__assign_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/public/intake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit Intake
+         * @description A client describes what they’re looking for. The request waits, unassigned, until the
+         *     broker gives it to an agent. The reply is the same whether or not we already know this
+         *     email address, so the form can’t be used to find out who our clients are.
+         */
+        post: operations["submit_intake_api_public_intake_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -598,6 +702,73 @@ export interface components {
             property_id?: number | null;
             /** Notes */
             notes?: string | null;
+        };
+        /** AssignRequest */
+        AssignRequest: {
+            /** Agent Id */
+            agent_id: number;
+        };
+        /** AssignResult */
+        AssignResult: {
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Email */
+            email: string | null;
+            /** Phone */
+            phone: string | null;
+            client_type: components["schemas"]["ClientType"];
+            /** Preferred City */
+            preferred_city: string | null;
+            /** Budget Max */
+            budget_max: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** From Website */
+            from_website: boolean;
+            /** Lead Id */
+            lead_id: number | null;
+            lead_stage: components["schemas"]["LeadStage"] | null;
+            /** Agent Id */
+            agent_id: number | null;
+            /** Agent Name */
+            agent_name: string | null;
+            /** Moved Appointments */
+            moved_appointments: number;
+        };
+        /** AssignmentRow */
+        AssignmentRow: {
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Email */
+            email: string | null;
+            /** Phone */
+            phone: string | null;
+            client_type: components["schemas"]["ClientType"];
+            /** Preferred City */
+            preferred_city: string | null;
+            /** Budget Max */
+            budget_max: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** From Website */
+            from_website: boolean;
+            /** Lead Id */
+            lead_id: number | null;
+            lead_stage: components["schemas"]["LeadStage"] | null;
+            /** Agent Id */
+            agent_id: number | null;
+            /** Agent Name */
+            agent_name: string | null;
         };
         /** Body_login_api_auth_login_post */
         Body_login_api_auth_login_post: {
@@ -731,7 +902,7 @@ export interface components {
             /** Id */
             id: number;
             /** Agent Id */
-            agent_id: number;
+            agent_id: number | null;
             /**
              * Created At
              * Format: date-time
@@ -772,6 +943,8 @@ export interface components {
             lead_stage: components["schemas"]["LeadStage"] | null;
             /** Lead Priority */
             lead_priority: string | null;
+            /** Agent Id */
+            agent_id?: number | null;
             /**
              * Updated At
              * Format: date-time
@@ -825,7 +998,7 @@ export interface components {
             /** Id */
             id: number;
             /** Agent Id */
-            agent_id: number;
+            agent_id: number | null;
             /**
              * Created At
              * Format: date-time
@@ -889,6 +1062,58 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /**
+         * IntakeCreate
+         * @description What a client fills in on the public “Find a home” form.
+         */
+        IntakeCreate: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Phone */
+            phone?: string | null;
+            /** @default buyer */
+            client_type: components["schemas"]["ClientType"];
+            /** Preferred City */
+            preferred_city?: string | null;
+            /**
+             * Preferred State
+             * @default Illinois
+             */
+            preferred_state: string | null;
+            /** Budget Min */
+            budget_min?: number | null;
+            /** Budget Max */
+            budget_max?: number | null;
+            /** Min Bedrooms */
+            min_bedrooms?: number | null;
+            /** Min Bathrooms */
+            min_bathrooms?: number | null;
+            /** @default unknown */
+            financing_status: components["schemas"]["FinancingStatus"];
+            /** Purchase Timeline Months */
+            purchase_timeline_months?: number | null;
+            /** Notes */
+            notes?: string | null;
+            /**
+             * Consent
+             * @description The client agrees to be contacted about their request
+             */
+            consent: boolean;
+            /** Website */
+            website?: string | null;
+        };
+        /** IntakeReply */
+        IntakeReply: {
+            /** Message */
+            message: string;
+        };
         /** InteractionCreate */
         InteractionCreate: {
             interaction_type: components["schemas"]["InteractionType"];
@@ -904,7 +1129,7 @@ export interface components {
             /** Client Id */
             client_id: number;
             /** Agent Id */
-            agent_id: number;
+            agent_id: number | null;
             interaction_type: components["schemas"]["InteractionType"];
             /** Summary */
             summary: string;
@@ -1010,7 +1235,7 @@ export interface components {
             /** Lost Reason */
             lost_reason: string | null;
             /** Agent Id */
-            agent_id: number;
+            agent_id: number | null;
             /**
              * Created At
              * Format: date-time
@@ -1240,7 +1465,7 @@ export interface components {
             from_stage: components["schemas"]["LeadStage"] | null;
             to_stage: components["schemas"]["LeadStage"];
             /** Changed By Id */
-            changed_by_id: number;
+            changed_by_id: number | null;
             /**
              * Changed At
              * Format: date-time
@@ -1305,6 +1530,29 @@ export interface components {
          * @enum {string}
          */
         SuggestionStatus: "suggested" | "accepted" | "dismissed";
+        /** TeamMember */
+        TeamMember: {
+            /** Id */
+            id: number;
+            /** Full Name */
+            full_name: string;
+            /** Email */
+            email: string;
+            role: components["schemas"]["UserRole"];
+            /** Is Active */
+            is_active: boolean;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Clients */
+            clients: number;
+            /** Open Leads */
+            open_leads: number;
+            /** Upcoming Appointments */
+            upcoming_appointments: number;
+        };
         /** Token */
         Token: {
             /** Access Token */
@@ -1352,6 +1600,14 @@ export interface components {
          * @enum {string}
          */
         UserRole: "agent" | "admin";
+        /** UserUpdate */
+        UserUpdate: {
+            /** Full Name */
+            full_name?: string | null;
+            role?: components["schemas"]["UserRole"] | null;
+            /** Is Active */
+            is_active?: boolean | null;
+        };
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -1521,6 +1777,41 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_user_api_users__user_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                user_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserRead"];
+                };
             };
             /** @description Validation Error */
             422: {
@@ -2560,6 +2851,125 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SuggestionRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    team_api_admin_team_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamMember"][];
+                };
+            };
+        };
+    };
+    clients_to_assign_api_admin_clients_get: {
+        parameters: {
+            query?: {
+                show?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignmentRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    assign_client_api_admin_clients__client_id__assign_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_intake_api_public_intake_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntakeCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntakeReply"];
                 };
             };
             /** @description Validation Error */

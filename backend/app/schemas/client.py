@@ -63,7 +63,7 @@ class ClientUpdate(BaseModel):
 
 class ClientRead(ORMModel, ClientFields):
     id: int
-    agent_id: int
+    agent_id: int | None
     created_at: datetime
     updated_at: datetime
 
@@ -81,6 +81,7 @@ class ClientListItem(BaseModel):
     lead_id: int | None
     lead_stage: LeadStage | None
     lead_priority: str | None
+    agent_id: int | None = None  # empty: a website request still waiting for an agent
     updated_at: datetime
 
 
@@ -93,7 +94,7 @@ class InteractionCreate(BaseModel):
 class InteractionRead(ORMModel):
     id: int
     client_id: int
-    agent_id: int
+    agent_id: int | None
     interaction_type: InteractionType
     summary: str
     occurred_at: datetime

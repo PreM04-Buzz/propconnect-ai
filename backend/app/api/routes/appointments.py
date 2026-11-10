@@ -83,6 +83,8 @@ def create_appointment(payload: AppointmentCreate, db: DbSession, user: CurrentU
     if client is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Client not found.")
     ensure_owner(user, client.agent_id)
+    if client.agent_id is None:
+        raise HTTPException(status.HTTP_409_CONFLICT, "Assign this client to an agent before scheduling.")
     if payload.property_id is not None and db.get(Property, payload.property_id) is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Property not found.")
     if payload.appointment_type == AppointmentType.viewing and payload.property_id is None:

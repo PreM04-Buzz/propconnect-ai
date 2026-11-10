@@ -13,6 +13,8 @@ export function ProtectedRoute({ children, roles }: Props) {
   const location = useLocation();
 
   if (loading) return <p className="page-status">Loading…</p>;
+  // Visitors who open the site's front door see the welcome page; deep links ask them to sign in.
+  if (!user && location.pathname === "/") return <Navigate to="/welcome" replace />;
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   if (roles && !roles.includes(user.role)) return <Navigate to="/" replace />;
   return <>{children}</>;
