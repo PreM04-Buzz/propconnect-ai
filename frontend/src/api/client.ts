@@ -25,6 +25,9 @@ export type Appointment = S["AppointmentRead"];
 export type AppointmentType = S["AppointmentType"];
 export type AppointmentStatus = S["AppointmentStatus"];
 export type Offer = S["OfferRead"];
+export type TeamMember = S["TeamMember"];
+export type AssignmentRow = S["AssignmentRow"];
+export type IntakeForm = S["IntakeCreate"];
 export type OfferStatus = S["OfferStatus"];
 
 // Access token lives in sessionStorage: it survives a refresh but is cleared when the tab closes.

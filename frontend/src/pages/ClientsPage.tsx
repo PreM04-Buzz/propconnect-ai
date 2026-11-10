@@ -52,6 +52,7 @@ export function ClientsPage() {
             {rows?.map((c) => (
               <tr key={c.id} className="clickable" onClick={() => navigate(`/clients/${c.id}`)}>
                 <td><Link to={`/clients/${c.id}`} onClick={(e) => e.stopPropagation()}><strong>{c.first_name} {c.last_name}</strong></Link>
+                  {c.agent_id == null && <span className="badge source-web">Unassigned</span>}
                   <div className="muted small">{c.email ?? c.phone ?? ""}</div></td>
                 <td className="cap">{c.client_type}</td>
                 <td>{c.preferred_city ?? "—"}</td>

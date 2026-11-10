@@ -24,7 +24,8 @@ class Client(TimestampMixin, Base):
     __tablename__ = "clients"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    agent_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
+    # Empty while a request from the website form waits for the broker to assign it.
+    agent_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True, nullable=True)
     first_name: Mapped[str] = mapped_column(String(80))
     last_name: Mapped[str] = mapped_column(String(80))
     email: Mapped[str | None] = mapped_column(String(255))
@@ -47,6 +48,8 @@ class Client(TimestampMixin, Base):
     )
     purchase_timeline_months: Mapped[int | None] = mapped_column(Integer)
     notes: Mapped[str | None] = mapped_column(Text)
+    # When the client agreed to be contacted, if they filled in the website form themselves.
+    consent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     leads: Mapped[list["Lead"]] = relationship(back_populates="client", cascade="all, delete-orphan", passive_deletes=True)
 
@@ -56,7 +59,7 @@ class Lead(TimestampMixin, Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     client_id: Mapped[int] = mapped_column(ForeignKey("clients.id", ondelete="CASCADE"), index=True)
-    agent_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
+    agent_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True, nullable=True)
     stage: Mapped[LeadStage] = mapped_column(_enum(LeadStage), default=LeadStage.new, index=True)
     source: Mapped[str | None] = mapped_column(String(60))  # website, referral, open house...
     score: Mapped[int | None] = mapped_column(Integer)  # 0-100, rule-based (Phase 4)
@@ -78,7 +81,7 @@ class LeadStageHistory(Base):
     lead_id: Mapped[int] = mapped_column(ForeignKey("leads.id", ondelete="CASCADE"), index=True)
     from_stage: Mapped[LeadStage | None] = mapped_column(_enum(LeadStage))
     to_stage: Mapped[LeadStage] = mapped_column(_enum(LeadStage))
-    changed_by_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    changed_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)  # empty: the website form
     changed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     lead: Mapped[Lead] = relationship(back_populates="history")

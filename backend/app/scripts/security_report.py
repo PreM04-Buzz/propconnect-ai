@@ -30,7 +30,7 @@ from app.models.enums import (
     AppointmentType, LeadStage, OfferStatus, PropertyStatus, SuggestionSource, UserRole,
 )
 
-PUBLIC = {("GET", "/api/health"), ("POST", "/api/auth/login")}
+PUBLIC = {("GET", "/api/health"), ("POST", "/api/auth/login"), ("POST", "/api/public/intake")}
 
 
 @dataclass
@@ -116,7 +116,7 @@ def run() -> list[Check]:
             return (path.replace("{client_id}", str(ids["client"])).replace("{lead_id}", str(ids["lead"]))
                     .replace("{interest_id}", str(ids["interest"])).replace("{property_id}", str(ids["prop"]))
                     .replace("{appointment_id}", str(ids["appt"])).replace("{offer_id}", str(ids["offer"]))
-                    .replace("{suggestion_id}", str(ids["sugg"])))
+                    .replace("{suggestion_id}", str(ids["sugg"])).replace("{user_id}", str(ids["users"]["b"].id)))
 
         def call(method, path, token=None, body=None):
             return client.request(method, path, headers=hdr(token) if token else {}, json=body).status_code
@@ -167,6 +167,10 @@ def run() -> list[Check]:
         # 4) Broker-only actions.
         for method, path, body in (("GET", "/api/users", None),
                                    ("POST", "/api/users", {"email": "x@y.com", "full_name": "X", "password": "x" * 10}),
+                                   ("PATCH", f"/api/users/{u['b'].id}", {"is_active": False}),
+                                   ("GET", "/api/admin/team", None),
+                                   ("GET", "/api/admin/clients", None),
+                                   ("POST", f"/api/admin/clients/{c}/assign", {"agent_id": u["a"].id}),
                                    ("DELETE", f"/api/properties/{ids['prop']}", None)):
             checks.append(Check("Broker only", method, path, "agent A", "403", str(call(method, path, tok_a, body))))
 

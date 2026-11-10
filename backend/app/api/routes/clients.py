@@ -54,7 +54,7 @@ def list_clients(
             client_type=c.client_type, budget_max=float(c.budget_max) if c.budget_max is not None else None,
             preferred_city=c.preferred_city, financing_status=c.financing_status,
             lead_id=lead.id if lead else None, lead_stage=lead.stage if lead else None,
-            lead_priority=lead.priority if lead else None, updated_at=c.updated_at,
+            lead_priority=lead.priority if lead else None, agent_id=c.agent_id, updated_at=c.updated_at,
         ))
     return out
 

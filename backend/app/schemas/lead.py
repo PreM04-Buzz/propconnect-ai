@@ -45,7 +45,7 @@ class StageHistoryRead(ORMModel):
     id: int
     from_stage: LeadStage | None
     to_stage: LeadStage
-    changed_by_id: int
+    changed_by_id: int | None
     changed_at: datetime
 
 
@@ -63,7 +63,7 @@ class LeadDetail(ORMModel):
     score: int | None
     priority: str | None
     lost_reason: str | None
-    agent_id: int
+    agent_id: int | None
     created_at: datetime
     updated_at: datetime
     client: ClientRead

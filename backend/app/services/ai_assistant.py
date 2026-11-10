@@ -69,7 +69,7 @@ def _addr(p: Property | None) -> str | None:
 def build_context(db: Session, lead: Lead) -> dict:
     """Collect the facts the model is allowed to use. Nothing else is sent."""
     c: Client = lead.client
-    agent = db.get(User, lead.agent_id)
+    agent = db.get(User, lead.agent_id) if lead.agent_id else None
     now = datetime.now(timezone.utc)
     score = compute_score(db, c, now)
 

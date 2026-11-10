@@ -14,12 +14,16 @@ import { PipelinePage } from "./pages/PipelinePage";
 import { PropertiesPage } from "./pages/PropertiesPage";
 import { PropertyDetailPage } from "./pages/PropertyDetailPage";
 import { PropertyNewPage } from "./pages/PropertyNewPage";
-import { TeamPage } from "./pages/TeamPage";
+import { AdminPage } from "./pages/AdminPage";
+import { IntakePage } from "./pages/IntakePage";
+import { WelcomePage } from "./pages/WelcomePage";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/start" element={<IntakePage />} />
+      <Route path="/welcome" element={<WelcomePage />} />
       <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
         <Route index element={<DashboardPage />} />
         <Route path="pipeline" element={<PipelinePage />} />
@@ -33,7 +37,8 @@ export default function App() {
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="offers" element={<OffersPage />} />
         <Route path="account" element={<AccountPage />} />
-        <Route path="team" element={<ProtectedRoute roles={["admin"]}><TeamPage /></ProtectedRoute>} />
+        <Route path="admin" element={<ProtectedRoute roles={["admin"]}><AdminPage /></ProtectedRoute>} />
+        <Route path="team" element={<Navigate to="/admin?tab=team" replace />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

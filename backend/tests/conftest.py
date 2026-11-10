@@ -109,3 +109,11 @@ def at(days: int, hour: int = 10, minutes: int = 0) -> str:
     from datetime import datetime, timedelta, timezone
     base = datetime.now(timezone.utc).replace(hour=hour, minute=minutes, second=0, microsecond=0)
     return (base + timedelta(days=days)).isoformat()
+
+
+@pytest.fixture(autouse=True)
+def _no_real_openai(monkeypatch):
+    """Tests never call the real OpenAI API, whatever is in the local .env.
+    Tests that need the AI path set a fake key and a fake model themselves."""
+    from app.core.config import get_settings
+    monkeypatch.setattr(get_settings(), "openai_api_key", None)
