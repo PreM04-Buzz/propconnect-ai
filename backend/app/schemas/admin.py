@@ -37,6 +37,7 @@ class AssignmentRow(BaseModel):
     lead_stage: LeadStage | None
     agent_id: int | None
     agent_name: str | None
+    intro_email: str | None = None  # sent, failed, skipped, or empty if none yet
 
 
 class AssignRequest(BaseModel):
@@ -45,3 +46,5 @@ class AssignRequest(BaseModel):
 
 class AssignResult(AssignmentRow):
     moved_appointments: int
+    email_status: str
+    email_detail: str

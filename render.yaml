@@ -34,3 +34,10 @@ services:
         value: gpt-4o-mini
       - key: AI_REQUESTS_PER_HOUR
         value: "30"
+      # Automatic "meet your agent" emails, sent through Brevo's API (SMTP is blocked on Render's free plan).
+      - key: BREVO_API_KEY
+        sync: false
+      - key: EMAIL_FROM_ADDRESS
+        sync: false         # the sender address you verified in Brevo
+      - key: EMAIL_FROM_NAME
+        value: PropConnect AI

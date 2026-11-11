@@ -117,3 +117,10 @@ def _no_real_openai(monkeypatch):
     Tests that need the AI path set a fake key and a fake model themselves."""
     from app.core.config import get_settings
     monkeypatch.setattr(get_settings(), "openai_api_key", None)
+
+
+@pytest.fixture(autouse=True)
+def _no_real_email(monkeypatch):
+    """Tests never send real email, whatever is in the local .env. Email tests set a fake key themselves."""
+    from app.core.config import get_settings
+    monkeypatch.setattr(get_settings(), "brevo_api_key", None)

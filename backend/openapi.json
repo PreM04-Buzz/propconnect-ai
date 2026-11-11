@@ -2759,9 +2759,28 @@
             ],
             "title": "Agent Name"
           },
+          "intro_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Intro Email"
+          },
           "moved_appointments": {
             "type": "integer",
             "title": "Moved Appointments"
+          },
+          "email_status": {
+            "type": "string",
+            "title": "Email Status"
+          },
+          "email_detail": {
+            "type": "string",
+            "title": "Email Detail"
           }
         },
         "type": "object",
@@ -2779,7 +2798,9 @@
           "lead_stage",
           "agent_id",
           "agent_name",
-          "moved_appointments"
+          "moved_appointments",
+          "email_status",
+          "email_detail"
         ],
         "title": "AssignResult"
       },
@@ -2891,6 +2912,17 @@
               }
             ],
             "title": "Agent Name"
+          },
+          "intro_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Intro Email"
           }
         },
         "type": "object",

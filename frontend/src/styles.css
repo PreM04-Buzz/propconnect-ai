@@ -497,3 +497,5 @@ textarea { font: inherit; padding: 0.55rem 0.7rem; border: 1px solid var(--line)
   .wa-bubble { opacity: 1; } .wa-sold { opacity: 1; }
   .wa-card { left: 80.8%; }
 }
+.badge.intro-sent { background: #e3f0e5; color: #2f6b3a; }
+.badge.intro-failed { background: #f6e3e2; color: #a3302a; }

@@ -6,6 +6,15 @@ import { money, shortDate } from "../lib/format";
 
 const roleLabel = (r: UserRole) => (r === "admin" ? "Broker" : "Agent");
 
+/** What happened to the "meet your agent" email for this client and their current agent. */
+function introBadge(r: AssignmentRow) {
+  if (!r.agent_id) return <span className="muted small">Sent when assigned</span>;
+  if (r.intro_email === "sent") return <span className="badge intro-sent">Sent</span>;
+  if (r.intro_email === "failed") return <span className="badge intro-failed">Failed</span>;
+  if (!r.email) return <span className="muted small">No email address</span>;
+  return <span className="muted small">Not sent</span>;
+}
+
 /** Broker-only: assign clients to agents, and manage the team. */
 export function AdminPage() {
   const [params, setParams] = useSearchParams();
@@ -57,7 +66,12 @@ function AssignClients() {
     });
     if (error) return setMsg({ ok: false, text: errorMessage(error) });
     const moved = data.moved_appointments ? ` (${data.moved_appointments} upcoming appointment${data.moved_appointments > 1 ? "s" : ""} moved too)` : "";
-    setMsg({ ok: true, text: `${row.client_name} is now with ${data.agent_name}${moved}.` });
+    const mail = data.email_status === "sent"
+      ? ` We emailed ${row.email} to introduce ${data.agent_name}.`
+      : data.email_status === "failed"
+        ? ` The introduction email couldn’t be sent (${data.email_detail}). It will be retried if you assign again.`
+        : row.email ? ` No email was sent: ${data.email_detail}` : "";
+    setMsg({ ok: data.email_status !== "failed", text: `${row.client_name} is now with ${data.agent_name}${moved}.${mail}` });
     void load();
   }
 
@@ -67,7 +81,7 @@ function AssignClients() {
       <div className="assign-head">
         <p className="muted">
           {show === "unassigned"
-            ? "Requests from the website form wait here until you give them to someone."
+            ? "Requests from the website form wait here until you give them to someone. When you assign a client, they get one email introducing their agent."
             : "Every client and who looks after them. Reassigning moves their leads and upcoming appointments too."}
         </p>
         <select value={show} onChange={(e) => setShow(e.target.value as "unassigned" | "all")} aria-label="Which clients">
@@ -79,7 +93,7 @@ function AssignClients() {
       <div className="table-wrap">
         <table className="table">
           <thead>
-            <tr><th>Client</th><th>Wants</th><th>Where</th><th>Budget up to</th><th>Received</th><th>Looked after by</th><th /></tr>
+            <tr><th>Client</th><th>Wants</th><th>Where</th><th>Budget up to</th><th>Received</th><th>Looked after by</th><th>Intro email</th><th /></tr>
           </thead>
           <tbody>
             {rows?.map((r) => (
@@ -101,6 +115,7 @@ function AssignClients() {
                     {team.map((m) => <option key={m.id} value={m.id}>{workload(m)}</option>)}
                   </select>
                 </td>
+                <td>{introBadge(r)}</td>
                 <td>
                   <button type="button" className="secondary"
                           disabled={!pick[r.client_id] || pick[r.client_id] === String(r.agent_id ?? "")}
