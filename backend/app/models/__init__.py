@@ -9,11 +9,12 @@ from app.models.crm import (
     PropertyInterest,
 )
 from app.models.ai import AiSuggestion
+from app.models.email import EmailLog
 from app.models.market import MarketInventory
 from app.models.property import Property
 from app.models.user import User
 
 __all__ = [
-    "AiSuggestion", "Appointment", "Client", "Interaction", "Lead", "LeadStageHistory",
+    "AiSuggestion", "Appointment", "Client", "EmailLog", "Interaction", "Lead", "LeadStageHistory",
     "MarketInventory", "Offer", "Property", "PropertyInterest", "User",
 ]

@@ -24,6 +24,12 @@ class Settings(BaseSettings):
     openai_model: str = "gpt-4o-mini"
     openai_base_url: str = "https://api.openai.com/v1"
     ai_timeout_seconds: float = 20.0
+    # Automatic emails go through Brevo's web API (Render's free plan blocks normal SMTP).
+    # Leave BREVO_API_KEY empty and nothing is sent; assignments still work.
+    brevo_api_key: str | None = None
+    email_from_address: str | None = None   # a sender address verified in Brevo
+    email_from_name: str = "PropConnect AI"
+    email_timeout_seconds: float = 10.0
     login_max_attempts: int = 5
     login_window_seconds: int = 60
     # Each user can ask the AI this many times per hour. Protects the OpenAI bill on a public site.

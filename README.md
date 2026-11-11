@@ -80,6 +80,7 @@ password `DEMO_PASSWORD` from `.env` (default `DemoAgent2026`).
 
 - **Clients send their own details** on the public form at `/start` (no account needed): what they want, where, budget, rooms, timing, financing and any notes, plus consent to be contacted. Each request becomes an unassigned client and lead. The form is limited to 5 requests an hour per address, ignores bots that fill a hidden field, and never reveals whether an email is already known.
 - **Brokers manage everything in Admin** (`/admin`): the *Assign clients* tab lists waiting requests (the menu shows how many) and lets a broker give any client to an agent, or move them. Leads and upcoming appointments move too, and a move that would double-book the new agent is refused. The *Team* tab adds brokers and agents, changes roles, and deactivates or reactivates accounts. Brokers can’t lock themselves out.
+- When a client is assigned, they get **one email introducing their agent** (replies go straight to the agent). Sent through Brevo's API; see docs/DEPLOYMENT.md. Without a key, nothing is sent and assignments work as before.
 - Agents only ever see their own clients; unassigned requests are visible to brokers only.
 
 ### Phase 3 evidence

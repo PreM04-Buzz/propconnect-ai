@@ -737,8 +737,14 @@ export interface components {
             agent_id: number | null;
             /** Agent Name */
             agent_name: string | null;
+            /** Intro Email */
+            intro_email?: string | null;
             /** Moved Appointments */
             moved_appointments: number;
+            /** Email Status */
+            email_status: string;
+            /** Email Detail */
+            email_detail: string;
         };
         /** AssignmentRow */
         AssignmentRow: {
@@ -769,6 +775,8 @@ export interface components {
             agent_id: number | null;
             /** Agent Name */
             agent_name: string | null;
+            /** Intro Email */
+            intro_email?: string | null;
         };
         /** Body_login_api_auth_login_post */
         Body_login_api_auth_login_post: {

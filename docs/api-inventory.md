@@ -1,6 +1,6 @@
 # API inventory
 
-Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-10.
+Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-11.
 
 **43 endpoints are implemented.** 40 need a valid sign-in token; the other 3 (health check and login) are public on purpose. 43 have at least one direct automated test, and the security matrix made 152 calls against them (152 passed).
 
@@ -11,8 +11,8 @@ Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-10.
 
 | Method | Endpoint | What it does | Who can call it | Direct tests | Security checks |
 | --- | --- | --- | --- | --- | --- |
-| GET | `/api/admin/clients` | Website requests waiting for an agent (default), or every client with their agent. | Broker only | 2 | 4/4 |
-| POST | `/api/admin/clients/{client_id}/assign` | Give a client to an agent, or move them to another one. Their leads and upcoming | Broker only | 3 | 4/4 |
+| GET | `/api/admin/clients` | Website requests waiting for an agent (default), or every client with their agent. | Broker only | 5 | 4/4 |
+| POST | `/api/admin/clients/{client_id}/assign` | Give a client to an agent, or move them to another one. Their leads and upcoming | Broker only | 4 | 4/4 |
 | GET | `/api/admin/team` | Everyone on the team, with how much each person is looking after. | Broker only | 2 | 4/4 |
 
 ## AI
@@ -45,7 +45,7 @@ Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-10.
 | Method | Endpoint | What it does | Who can call it | Direct tests | Security checks |
 | --- | --- | --- | --- | --- | --- |
 | GET | `/api/clients` | List Clients | Signed in, own records only | 7 | 4/4 |
-| POST | `/api/clients` | Create Client | Any signed-in user | 10 | 3/3 |
+| POST | `/api/clients` | Create Client | Any signed-in user | 11 | 3/3 |
 | GET | `/api/clients/{client_id}` | Read Client | Owner or broker | 7 | 6/6 |
 | PATCH | `/api/clients/{client_id}` | Update Client | Owner or broker | 1 | 4/4 |
 | DELETE | `/api/clients/{client_id}` | Delete Client | Owner or broker | 1 | 4/4 |
@@ -94,7 +94,7 @@ Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-10.
 
 | Method | Endpoint | What it does | Who can call it | Direct tests | Security checks |
 | --- | --- | --- | --- | --- | --- |
-| POST | `/api/public/intake` | A client describes what they’re looking for. The request waits, unassigned, until the | Public | 11 | – |
+| POST | `/api/public/intake` | A client describes what they’re looking for. The request waits, unassigned, until the | Public | 13 | – |
 
 ## Users
 

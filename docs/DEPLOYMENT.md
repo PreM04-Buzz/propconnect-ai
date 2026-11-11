@@ -82,6 +82,19 @@ The free Render service goes to sleep after 15 minutes without visitors and take
 
 Create each participant's account from the **Team** page as the broker. Use anonymous names (P1, P2, …), not real ones.
 
+## Automatic emails
+
+When a broker assigns a client to an agent, the client gets one email introducing their agent, with the agent's address as reply-to. Each client gets at most one introduction per agent. Every attempt is recorded in the `email_log` table, and the Admin page shows it in the *Intro email* column.
+
+Render's free plan blocks normal email (SMTP), so the app sends through Brevo's web API instead (free: 300 emails a day).
+
+1. Sign up at brevo.com (free, no card).
+2. **Senders, domains & dedicated IPs → Senders → Add a sender**: use the address emails should come from (your Gmail works). Click the link Brevo emails you to verify it.
+3. **SMTP & API → API keys → Generate a new API key**. Copy it.
+4. In Render → `propconnect-api` → **Environment**: set `BREVO_API_KEY` to the key and `EMAIL_FROM_ADDRESS` to the verified sender. Save; Render restarts by itself.
+
+Without a domain of your own, some emails may land in the client's spam folder at first. A verified domain in Brevo fixes that if the product goes beyond the class project.
+
 ## Protecting the AI budget
 
 - The OpenAI key lives only in Render's settings. It's never in the frontend or in Git.

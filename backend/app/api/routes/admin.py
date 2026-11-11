@@ -5,9 +5,10 @@ from fastapi import APIRouter, HTTPException, Query, status
 from sqlalchemy import func, select
 
 from app.api.deps import AdminUser, DbSession
-from app.models import Appointment, Client, Interaction, Lead, User
+from app.models import Appointment, Client, EmailLog, Interaction, Lead, User
 from app.models.enums import AppointmentStatus, InteractionType, LeadStage
 from app.schemas.admin import AssignmentRow, AssignRequest, AssignResult, TeamMember
+from app.services.email import INTRO, send_agent_intro
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -35,12 +36,14 @@ def team(db: DbSession, _: AdminUser) -> list[TeamMember]:
 def _row(db, c: Client) -> AssignmentRow:
     lead = db.scalar(select(Lead).where(Lead.client_id == c.id).order_by(Lead.id.desc()))
     agent = db.get(User, c.agent_id) if c.agent_id else None
+    intro = db.scalar(select(EmailLog.status).where(EmailLog.client_id == c.id, EmailLog.agent_id == c.agent_id,
+                                                    EmailLog.kind == INTRO)) if c.agent_id else None
     return AssignmentRow(
         client_id=c.id, client_name=f"{c.first_name} {c.last_name}", email=c.email, phone=c.phone,
         client_type=c.client_type, preferred_city=c.preferred_city,
         budget_max=float(c.budget_max) if c.budget_max is not None else None, created_at=c.created_at,
         from_website=c.consent_at is not None, lead_id=lead.id if lead else None, lead_stage=lead.stage if lead else None,
-        agent_id=c.agent_id, agent_name=agent.full_name if agent else None)
+        agent_id=c.agent_id, agent_name=agent.full_name if agent else None, intro_email=intro)
 
 
 @router.get("/clients", response_model=list[AssignmentRow])
@@ -64,7 +67,8 @@ def assign_client(client_id: int, payload: AssignRequest, db: DbSession, broker:
     if agent is None or not agent.is_active:
         raise HTTPException(422, "Pick an active agent or broker.")
     if client.agent_id == agent.id:
-        return AssignResult(**_row(db, client).model_dump(), moved_appointments=0)
+        return AssignResult(**_row(db, client).model_dump(), moved_appointments=0,
+                            email_status="skipped", email_detail="Already with this agent.")
 
     now = datetime.now(timezone.utc)
     upcoming = list(db.scalars(select(Appointment).where(
@@ -91,4 +95,8 @@ def assign_client(client_id: int, payload: AssignRequest, db: DbSession, broker:
                        summary=f"{what} by {broker.full_name}.", occurred_at=now))
     db.commit()
     db.refresh(client)
-    return AssignResult(**_row(db, client).model_dump(), moved_appointments=len(upcoming))
+    # The assignment is saved first; the email can never undo it.
+    email = send_agent_intro(db, client, agent)
+    db.refresh(client)
+    return AssignResult(**_row(db, client).model_dump(), moved_appointments=len(upcoming),
+                        email_status=email.status, email_detail=email.detail)
