@@ -76,7 +76,7 @@ def main() -> None:
             open(ROOT / "data" / "eval" / "rating-key.csv", "w", newline="", encoding="utf-8") as k:
         sheet, key = csv.writer(f), csv.writer(k)
         sheet.writerow(["scenario", "answer", "recommended_action", "draft_message",
-                        "grounded_1to4", "right_action_1to4", "specific_1to4", "draft_quality_1to4", "rater", "comment"])
+                        "correctness_1to5", "specificity_1to5", "tone_1to5", "actionability_1to5", "rater", "comment"])
         key.writerow(["scenario", "A", "B"])
         for r in results:
             ai = next((x["answer"] for x in r["ai"] if x["answer"]), None)

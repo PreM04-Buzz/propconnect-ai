@@ -30,24 +30,18 @@ They're created as real leads by `python -m app.scripts.seed_eval`, under a sepa
 
 ## How we rate
 
-Each answer gets 1 to 4 on four criteria:
+The professor’s rubric: each answer gets 1 to 5 on four metrics.
 
-| Criterion | 4 | 1 |
+| Metric | 5 means | 1 means |
 | --- | --- | --- |
-| Grounded | Every fact comes from the client's data | Invents a property, price, date or detail |
-| Right action | The best next step for this stage and data | A wrong or harmful step |
-| Specific | Names the property, price or timing | Generic advice that would fit anyone |
-| Draft quality | The agent could send it as is | Unusable, wrong tone or wrong person |
+| Correctness | The right next step, and every fact is true | A wrong step, or an invented fact |
+| Specificity | Names the home, price or timing | Advice that would fit anyone |
+| Professional tone | Ready to send to a client | Awkward or off-putting |
+| Actionability | The agent can act on it today | Unclear what to do |
 
-The average gives the label: **Very Good** 3.5+, **Good** 2.75+, **Acceptable** 2.0+, **Poor** below that. Any invented fact caps the answer at Acceptable, however good the rest is.
+An answer that invents a fact gets at most 2 for correctness. Raters never know which answer is the AI’s: the runner shuffles the two answers per scenario and labels them A and B. Where two raters are more than a point apart, the scorer lists it so you can talk it through.
 
-Both of us rate every answer separately, without knowing which one came from the AI: the runner shuffles the two answers per scenario and labels them A and B. Where we disagree by more than a point, we talk it through and write down why.
-
-We also measure, automatically:
-
-- **Grounding failures:** answers that mention a price, address or date not in the data.
-- **Consistency:** how often three runs of the same scenario choose the same kind of action.
-- **Response time.**
+Measured automatically: AI answers rejected by the schema or grounding check, whether the 3 AI runs of a scenario chose the same kind of action, and response time.
 
 ## How to run it
 
@@ -58,13 +52,9 @@ python -m app.scripts.seed_eval --reset    # the 15 scenarios
 python -m app.scripts.run_eval             # rule-based + 3 AI runs each
 ```
 
-This writes:
+This writes `docs/eval/results.md` (every answer side by side), `docs/eval/rating-sheet.csv` (the blind sheet) and `data/eval/rating-key.csv` (which of A and B was the AI; don’t open it until rating is done).
 
-- `docs/eval/results.md`: every answer side by side
-- `docs/eval/rating-sheet.csv`: the blind sheet you both fill in (put your name in the `rater` column)
-- `data/eval/rating-key.csv`: which of A and B was the AI. Don't open it until rating is done.
-
-When both of you have rated:
+Each rater saves their own filled copy of the sheet in `docs/eval/ratings/` (for example `laxman.csv`, `prem.csv`), with their name in the `rater` column. Then:
 
 ```
 python -m app.scripts.score_eval           # writes docs/eval/scores.md
