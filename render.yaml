@@ -41,3 +41,6 @@ services:
         sync: false         # the sender address you verified in Brevo
       - key: EMAIL_FROM_NAME
         value: PropConnect AI
+      # The website's address, for links in emails (client-portal invitations).
+      - key: APP_URL
+        value: https://prem04-buzz.github.io/propconnect-ai

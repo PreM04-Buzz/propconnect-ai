@@ -16,7 +16,8 @@ export function WelcomePage() {
         <Link to="/welcome" className="wl-brand">PropConnect <span>AI</span></Link>
         <nav>
           <Link to="/start">Find a home</Link>
-          <Link to={user ? "/" : "/login"}>{user ? "Dashboard" : "Sign in"}</Link>
+          <Link to={user ? "/" : "/login"}>{user ? "Dashboard" : "Staff sign-in"}</Link>
+          <Link to="/portal/login" className="wl-nav-client">Client sign-in</Link>
         </nav>
       </header>
 
@@ -52,7 +53,7 @@ export function WelcomePage() {
           <ul>
             <li>One short form for buying, selling or both</li>
             <li>You choose what to share; your details go only to your agent</li>
-            <li>Send it again any time if your plans change</li>
+            <li>Once your agent invites you, follow every step in your own portal and message them any time</li>
           </ul>
           <Link className="button wl-btn-primary" to="/start">Tell us what you need</Link>
         </div>
@@ -106,7 +107,7 @@ export function WelcomePage() {
 
       <footer className="wl-foot">
         <p>PropConnect AI · A CPSC-8985 graduate project at Governors State University</p>
-        <nav><Link to="/start">Find a home</Link><Link to="/login">Sign in</Link></nav>
+        <nav><Link to="/start">Find a home</Link><Link to="/portal/login">Client sign-in</Link><Link to="/login">Staff sign-in</Link></nav>
       </footer>
     </div>
   );

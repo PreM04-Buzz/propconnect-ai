@@ -30,7 +30,8 @@ from app.models.enums import (
     AppointmentType, LeadStage, OfferStatus, PropertyStatus, SuggestionSource, UserRole,
 )
 
-PUBLIC = {("GET", "/api/health"), ("POST", "/api/auth/login"), ("POST", "/api/public/intake")}
+PUBLIC = {("GET", "/api/health"), ("POST", "/api/auth/login"), ("POST", "/api/public/intake"),
+          ("POST", "/api/portal/accept"), ("POST", "/api/portal/login")}
 
 
 @dataclass
@@ -116,7 +117,8 @@ def run() -> list[Check]:
             return (path.replace("{client_id}", str(ids["client"])).replace("{lead_id}", str(ids["lead"]))
                     .replace("{interest_id}", str(ids["interest"])).replace("{property_id}", str(ids["prop"]))
                     .replace("{appointment_id}", str(ids["appt"])).replace("{offer_id}", str(ids["offer"]))
-                    .replace("{suggestion_id}", str(ids["sugg"])).replace("{user_id}", str(ids["users"]["b"].id)))
+                    .replace("{suggestion_id}", str(ids["sugg"])).replace("{user_id}", str(ids["users"]["b"].id))
+                    .replace("{channel}", "agent"))
 
         def call(method, path, token=None, body=None):
             return client.request(method, path, headers=hdr(token) if token else {}, json=body).status_code
@@ -131,12 +133,33 @@ def run() -> list[Check]:
                 checks.append(Check("Sign-in required", method, path, caller, "401",
                                     str(call(method, fill(path), token))))
 
+        # 1b) Client-portal tokens and staff tokens never cross: every staff endpoint refuses a client's
+        # token, and every portal endpoint refuses a staff token.
+        from app.core.security import create_access_token, hash_password
+        from app.models import ClientAccount
+        acc = ClientAccount(client_id=ids["client"], password_hash=hash_password("client-pass-1"))
+        db.add(acc)
+        db.commit()
+        tok_client = create_access_token(str(acc.id), "client", kind="client")
+        for method, path in routes:
+            if (method, path) in PUBLIC:
+                continue
+            if path.startswith("/api/portal/"):
+                for caller, token in (("agent A (staff token)", tok_a), ("broker (staff token)", tok_broker)):
+                    checks.append(Check("Portal refuses staff tokens", method, path, caller, "401",
+                                        str(call(method, fill(path), token))))
+            else:
+                checks.append(Check("Staff endpoints refuse client tokens", method, path, "portal client", "401",
+                                    str(call(method, fill(path), tok_client))))
+
         # 2) Agent B can't touch agent A's records by calling the API directly (404, not 403: no id probing).
         c, l, ap, of = ids["client"], ids["lead"], ids["appt"], ids["offer"]
         soon = datetime.now(timezone.utc) + timedelta(days=5)
         cross = [
             ("GET", f"/api/clients/{c}", None), ("PATCH", f"/api/clients/{c}", {"phone": "1"}),
             ("DELETE", f"/api/clients/{c}", None),
+            ("POST", f"/api/clients/{c}/portal-invite", None), ("GET", f"/api/clients/{c}/portal", None),
+            ("GET", f"/api/messages/{c}/agent", None), ("POST", f"/api/messages/{c}/agent", {"body": "x"}),
             ("POST", f"/api/clients/{c}/interactions", {"interaction_type": "call", "summary": "x"}),
             ("POST", f"/api/clients/{c}/interests", {"property_id": ids["prop"]}),
             ("DELETE", f"/api/clients/{c}/interests/{ids['interest']}", None),

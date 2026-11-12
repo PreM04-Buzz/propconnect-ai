@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { api, errorMessage, type ClientDetail, type InteractionType, type PropertyMatch } from "../api/client";
 import { PriorityBadge, ScoreRing, StageBadge } from "../components/Badges";
 import { ClientForm } from "../components/ClientForm";
+import { ClientPortalCard } from "../components/ClientPortalCard";
 import { financingLabel, money, shortDate } from "../lib/format";
 
 const TYPES: InteractionType[] = ["call", "email", "text", "meeting", "note"];
@@ -104,6 +105,7 @@ export function ClientDetailPage() {
               <dt>Notes</dt><dd>{c.notes ?? "—"}</dd>
             </dl>
           </div>
+          <ClientPortalCard clientId={c.id} hasEmail={Boolean(c.email)} />
           <div className="card">
             <h2>Lead</h2>
             {lead ? (

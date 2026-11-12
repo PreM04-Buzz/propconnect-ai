@@ -24,11 +24,30 @@ def _shape(path: str) -> str:
     return re.sub(r"\{[^}]+\}|\d+", "{}", path)
 
 
+def _route_for(method: str, path: str, routes: list[tuple[str, str]]) -> str:
+    """Match a path as written in a test against the app's real routes, so literal values such as
+    '/api/messages/{cid}/agent' count for '/api/messages/{client_id}/{channel}'. The most specific
+    route wins (fewest {parameters}), so '/api/messages/conversations' stays itself."""
+    concrete = re.sub(r"\{[^}]+\}", "x", path)
+    best = None
+    for m, template in routes:
+        if m != method:
+            continue
+        pattern = "^" + "/".join("[^/]+" if re.fullmatch(r"\{[^}]+\}", part) else re.escape(part)
+                                  for part in template.split("/")) + "$"
+        if re.match(pattern, concrete):
+            score = template.count("{")
+            if best is None or score < best[0]:
+                best = (score, template)
+    return _shape(best[1]) if best else _shape(path)
+
+
 def direct_test_counts() -> Counter:
+    routes = [(m.upper(), path) for path, ops in app.openapi()["paths"].items() for m in ops]
     counts: Counter = Counter()
     for f in (ROOT / "backend" / "tests").glob("test_*.py"):
         for method, path in CALL.findall(f.read_text(encoding="utf-8")):
-            counts[(method.upper(), _shape(path))] += 1
+            counts[(method.upper(), _route_for(method.upper(), path, routes))] += 1
     return counts
 
 

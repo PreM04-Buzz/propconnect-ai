@@ -57,11 +57,13 @@ export function IntakePage() {
       </aside>
       <main className="login-main intake-main">
         <div className="login-watermark" aria-hidden="true" />
+        <p className="top-switch">Already a client? <Link to="/portal/login">Client sign-in</Link></p>
         {sent ? (
           <div className="login-card intake-card" role="status">
             <h1>Thank you</h1>
             <p>{sent}</p>
-            <p className="muted">There’s nothing else you need to do. Keep an eye on your email and phone.</p>
+            <p className="muted">Once you’ve created your account, sign in any time to follow your request and message your agent.</p>
+            <div className="actions"><Link className="button" to="/portal/login">Client sign-in</Link></div>
             <div className="actions"><button type="button" className="secondary" onClick={() => setSent(null)}>Send another request</button></div>
           </div>
         ) : (

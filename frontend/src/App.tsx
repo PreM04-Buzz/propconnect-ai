@@ -17,6 +17,9 @@ import { PropertyNewPage } from "./pages/PropertyNewPage";
 import { AdminPage } from "./pages/AdminPage";
 import { IntakePage } from "./pages/IntakePage";
 import { MarketPage } from "./pages/MarketPage";
+import { MessagesPage } from "./pages/MessagesPage";
+import { PortalLoginPage, PortalSetupPage } from "./pages/PortalAuthPages";
+import { PortalPage } from "./pages/PortalPage";
 import { WelcomePage } from "./pages/WelcomePage";
 
 export default function App() {
@@ -25,6 +28,9 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/start" element={<IntakePage />} />
       <Route path="/welcome" element={<WelcomePage />} />
+      <Route path="/portal" element={<PortalPage />} />
+      <Route path="/portal/login" element={<PortalLoginPage />} />
+      <Route path="/portal/setup" element={<PortalSetupPage />} />
       <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
         <Route index element={<DashboardPage />} />
         <Route path="pipeline" element={<PipelinePage />} />
@@ -39,6 +45,7 @@ export default function App() {
         <Route path="offers" element={<OffersPage />} />
         <Route path="account" element={<AccountPage />} />
         <Route path="market" element={<MarketPage />} />
+        <Route path="messages" element={<MessagesPage />} />
         <Route path="admin" element={<ProtectedRoute roles={["admin"]}><AdminPage /></ProtectedRoute>} />
         <Route path="team" element={<Navigate to="/admin?tab=team" replace />} />
       </Route>
