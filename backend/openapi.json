@@ -2310,6 +2310,148 @@
         }
       }
     },
+    "/api/market/regions": {
+      "get": {
+        "tags": [
+          "market"
+        ],
+        "summary": "Regions",
+        "description": "Find metro areas by name. With no search, the United States and the Illinois metros.",
+        "operationId": "regions_api_market_regions_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 60,
+              "default": "",
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MarketRegion"
+                  },
+                  "title": "Response Regions Api Market Regions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/market/trends": {
+      "get": {
+        "tags": [
+          "market"
+        ],
+        "summary": "Trends",
+        "description": "Monthly homes for sale for up to three areas, with plain-English statistics.",
+        "operationId": "trends_api_market_trends_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "region_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 1,
+              "maxItems": 3,
+              "title": "Region Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MarketSeries"
+                  },
+                  "title": "Response Trends Api Market Trends Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/market/my-areas": {
+      "get": {
+        "tags": [
+          "market"
+        ],
+        "summary": "My Areas",
+        "description": "The market where your clients want to live (a broker sees every client's area).",
+        "operationId": "my_areas_api_market_my_areas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MyArea"
+                  },
+                  "type": "array",
+                  "title": "Response My Areas Api Market My Areas Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/api/public/intake": {
       "post": {
         "tags": [
@@ -4793,6 +4935,353 @@
         },
         "type": "object",
         "title": "LeadUpdate"
+      },
+      "MarketPoint": {
+        "properties": {
+          "month": {
+            "type": "string",
+            "format": "date",
+            "title": "Month"
+          },
+          "inventory": {
+            "type": "integer",
+            "title": "Inventory"
+          }
+        },
+        "type": "object",
+        "required": [
+          "month",
+          "inventory"
+        ],
+        "title": "MarketPoint"
+      },
+      "MarketRegion": {
+        "properties": {
+          "region_id": {
+            "type": "integer",
+            "title": "Region Id"
+          },
+          "region_name": {
+            "type": "string",
+            "title": "Region Name"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "size_rank": {
+            "type": "integer",
+            "title": "Size Rank"
+          },
+          "latest_month": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Month"
+          },
+          "latest_inventory": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Inventory"
+          },
+          "change_1y_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change 1Y Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "region_id",
+          "region_name",
+          "state",
+          "size_rank",
+          "latest_month",
+          "latest_inventory",
+          "change_1y_pct"
+        ],
+        "title": "MarketRegion"
+      },
+      "MarketSeries": {
+        "properties": {
+          "region_id": {
+            "type": "integer",
+            "title": "Region Id"
+          },
+          "region_name": {
+            "type": "string",
+            "title": "Region Name"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/MarketPoint"
+            },
+            "type": "array",
+            "title": "Points"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/MarketStats"
+          }
+        },
+        "type": "object",
+        "required": [
+          "region_id",
+          "region_name",
+          "state",
+          "points",
+          "stats"
+        ],
+        "title": "MarketSeries"
+      },
+      "MarketStats": {
+        "properties": {
+          "latest": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest"
+          },
+          "latest_month": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Month"
+          },
+          "change_1y_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change 1Y Pct"
+          },
+          "change_vs_2019_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change Vs 2019 Pct"
+          },
+          "trend_3m": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trend 3M"
+          },
+          "peak": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Peak"
+          },
+          "peak_month": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Peak Month"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low"
+          },
+          "low_month": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low Month"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "latest",
+          "latest_month",
+          "change_1y_pct",
+          "change_vs_2019_pct",
+          "trend_3m",
+          "peak",
+          "peak_month",
+          "low",
+          "low_month",
+          "summary"
+        ],
+        "title": "MarketStats"
+      },
+      "MyArea": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "clients": {
+            "type": "integer",
+            "title": "Clients"
+          },
+          "region_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region Id"
+          },
+          "region_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region Name"
+          },
+          "match": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match"
+          },
+          "latest": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest"
+          },
+          "change_1y_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change 1Y Pct"
+          },
+          "trend_3m": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trend 3M"
+          }
+        },
+        "type": "object",
+        "required": [
+          "city",
+          "clients",
+          "region_id",
+          "region_name",
+          "match",
+          "latest",
+          "change_1y_pct",
+          "trend_3m"
+        ],
+        "title": "MyArea"
       },
       "OfferCreate": {
         "properties": {

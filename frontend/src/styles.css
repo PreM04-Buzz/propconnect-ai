@@ -499,3 +499,49 @@ textarea { font: inherit; padding: 0.55rem 0.7rem; border: 1px solid var(--line)
 }
 .badge.intro-sent { background: #e3f0e5; color: #2f6b3a; }
 .badge.intro-failed { background: #f6e3e2; color: #a3302a; }
+
+/* ---------- Market trends ---------- */
+.market-h2 { font-size: 1.1rem; margin: 0.5rem 0 0.75rem; }
+.area-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 0.5rem; }
+.area-card { display: grid; gap: 0.35rem; text-align: left; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 0.9rem 1rem; font: inherit; cursor: pointer; }
+.area-card:hover { border-color: var(--brass); }
+.area-city { font-weight: 600; font-size: 1.05rem; }
+.area-num { font-size: 1.35rem; font-weight: 600; }
+.area-num small { font-size: 0.8rem; font-weight: 400; color: var(--ink-soft); }
+.area-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.chip { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px; background: #eef1f4; font-size: 0.78rem; color: #33424f; }
+.chip-up { background: #e3f0e5; color: #2f6b3a; }
+.chip-down { background: #f6e3e2; color: #a3302a; }
+.market-card { margin-top: 1rem; display: grid; gap: 1rem; }
+.market-controls { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+.market-picked { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.picked-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.4rem 0.3rem 0.65rem; border: 1px solid var(--line);
+  border-radius: 999px; font-size: 0.88rem; background: #fff; }
+.picked-chip i, .mchart-tip i { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; }
+.picked-chip button { border: 0; background: none; color: var(--ink-soft); font-size: 1.05rem; padding: 0 0.3rem; cursor: pointer; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: #fff; color: var(--ink-soft); padding: 0.45rem 0.8rem; font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.mchart { position: relative; }
+.mchart svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+.mchart-grid { stroke: #e6e9ed; stroke-width: 1; }
+.mchart-base { stroke: #a8741a; stroke-dasharray: 4 4; stroke-width: 1.2; }
+.mchart-axis { fill: #6b7785; font-size: 12px; }
+.mchart-cursor { stroke: #9aa5b1; stroke-width: 1; }
+.mchart-tip { position: absolute; top: 0.25rem; transform: translateX(-50%); background: #1c2b3a; color: #f5f6f3; border-radius: 8px;
+  padding: 0.45rem 0.65rem; font-size: 0.8rem; display: grid; gap: 0.2rem; pointer-events: none; white-space: nowrap; z-index: 2; }
+.mchart-tip span { display: flex; align-items: center; gap: 0.4rem; }
+.market-search label { font-weight: 500; display: grid; gap: 0.4rem; max-width: 420px; }
+.region-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.region-opt { background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.7rem; font-size: 0.85rem; }
+.region-opt:disabled { opacity: 0.45; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+.stat-card { border-top: 4px solid var(--ink); }
+.stat-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+.stat-summary { margin: 0 0 0.8rem; color: #33424f; line-height: 1.5; }
+.stat-card dl { margin: 0; display: grid; gap: 0.45rem; }
+.stat-card dl div { display: flex; justify-content: space-between; gap: 0.75rem; border-top: 1px solid #eef1f4; padding-top: 0.4rem; }
+.stat-card dt { color: var(--ink-soft); font-size: 0.88rem; }
+.stat-card dd { margin: 0; font-weight: 600; text-align: right; }
+.stat-card dd small { font-weight: 400; color: var(--ink-soft); }

@@ -28,6 +28,9 @@ export type Offer = S["OfferRead"];
 export type TeamMember = S["TeamMember"];
 export type AssignmentRow = S["AssignmentRow"];
 export type IntakeForm = S["IntakeCreate"];
+export type MarketRegion = S["MarketRegion"];
+export type MarketSeries = S["MarketSeries"];
+export type MyArea = S["MyArea"];
 export type OfferStatus = S["OfferStatus"];
 
 // Access token lives in sessionStorage: it survives a refresh but is cleared when the tab closes.

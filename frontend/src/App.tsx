@@ -16,6 +16,7 @@ import { PropertyDetailPage } from "./pages/PropertyDetailPage";
 import { PropertyNewPage } from "./pages/PropertyNewPage";
 import { AdminPage } from "./pages/AdminPage";
 import { IntakePage } from "./pages/IntakePage";
+import { MarketPage } from "./pages/MarketPage";
 import { WelcomePage } from "./pages/WelcomePage";
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="offers" element={<OffersPage />} />
         <Route path="account" element={<AccountPage />} />
+        <Route path="market" element={<MarketPage />} />
         <Route path="admin" element={<ProtectedRoute roles={["admin"]}><AdminPage /></ProtectedRoute>} />
         <Route path="team" element={<Navigate to="/admin?tab=team" replace />} />
       </Route>
