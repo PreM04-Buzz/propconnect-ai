@@ -1,8 +1,8 @@
 # API inventory
 
-Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-11.
+Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-12.
 
-**43 endpoints are implemented.** 40 need a valid sign-in token; the other 3 (health check and login) are public on purpose. 43 have at least one direct automated test, and the security matrix made 152 calls against them (152 passed).
+**46 endpoints are implemented.** 43 need a valid sign-in token; the other 3 (health check and login) are public on purpose. 46 have at least one direct automated test, and the security matrix made 161 calls against them (161 passed).
 
 **Who can call it:** *Public* needs no sign-in · *Any signed-in user* needs a valid token · *Own records only* lists only the caller's data · *Owner or broker* returns 404 to any other agent · *Broker only* returns 403 to agents.
 
@@ -70,6 +70,14 @@ Generated from the code by `python -m app.scripts.api_inventory` on 2026-11-11.
 | GET | `/api/leads/{lead_id}` | Read Lead | Owner or broker | 6 | 4/4 |
 | PATCH | `/api/leads/{lead_id}` | Update Lead | Owner or broker | 1 | 4/4 |
 | POST | `/api/leads/{lead_id}/move` | Move a lead to another pipeline stage. Every move is recorded in the stage history. | Owner or broker | 8 | 4/4 |
+
+## Market
+
+| Method | Endpoint | What it does | Who can call it | Direct tests | Security checks |
+| --- | --- | --- | --- | --- | --- |
+| GET | `/api/market/my-areas` | The market where your clients want to live (a broker sees every client's area). | Any signed-in user | 2 | 3/3 |
+| GET | `/api/market/regions` | Find metro areas by name. With no search, the United States and the Illinois metros. | Any signed-in user | 3 | 3/3 |
+| GET | `/api/market/trends` | Monthly homes for sale for up to three areas, with plain-English statistics. | Any signed-in user | 5 | 3/3 |
 
 ## Offers
 

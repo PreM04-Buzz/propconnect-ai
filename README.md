@@ -76,6 +76,10 @@ python -m app.scripts.seed_demo      # 2 demo agents, 40 clients, leads in every
 Demo agent logins: `maria.lopez@propconnect-demo.com` and `james.carter@propconnect-demo.com`,
 password `DEMO_PASSWORD` from `.env` (default `DemoAgent2026`).
 
+### Market trends
+
+The **Market trends** page (`/market`) uses the 94,656 rows of Zillow monthly inventory (homes for sale per metro, March 2018 to August 2026). It shows the market in each metro where the agent's clients want to live (suburbs such as Naperville or Evanston are matched to the Chicago metro by ZIP code; areas with no Zillow metro are listed honestly as having no data), a chart comparing up to three areas either as raw counts or as a percentage of their 2019 level, and a plain-English summary an agent can repeat to a client.
+
 ### Clients and team
 
 - **Clients send their own details** on the public form at `/start` (no account needed): what they want, where, budget, rooms, timing, financing and any notes, plus consent to be contacted. Each request becomes an unassigned client and lead. The form is limited to 5 requests an hour per address, ignores bots that fill a hidden field, and never reveals whether an email is already known.

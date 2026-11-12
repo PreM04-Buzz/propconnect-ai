@@ -586,6 +586,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/market/regions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Regions
+         * @description Find metro areas by name. With no search, the United States and the Illinois metros.
+         */
+        get: operations["regions_api_market_regions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/market/trends": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Trends
+         * @description Monthly homes for sale for up to three areas, with plain-English statistics.
+         */
+        get: operations["trends_api_market_trends_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/market/my-areas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Areas
+         * @description The market where your clients want to live (a broker sees every client's area).
+         */
+        get: operations["my_areas_api_market_my_areas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/public/intake": {
         parameters: {
             query?: never;
@@ -1275,6 +1335,87 @@ export interface components {
         LeadUpdate: {
             /** Source */
             source?: string | null;
+        };
+        /** MarketPoint */
+        MarketPoint: {
+            /**
+             * Month
+             * Format: date
+             */
+            month: string;
+            /** Inventory */
+            inventory: number;
+        };
+        /** MarketRegion */
+        MarketRegion: {
+            /** Region Id */
+            region_id: number;
+            /** Region Name */
+            region_name: string;
+            /** State */
+            state: string | null;
+            /** Size Rank */
+            size_rank: number;
+            /** Latest Month */
+            latest_month: string | null;
+            /** Latest Inventory */
+            latest_inventory: number | null;
+            /** Change 1Y Pct */
+            change_1y_pct: number | null;
+        };
+        /** MarketSeries */
+        MarketSeries: {
+            /** Region Id */
+            region_id: number;
+            /** Region Name */
+            region_name: string;
+            /** State */
+            state: string | null;
+            /** Points */
+            points: components["schemas"]["MarketPoint"][];
+            stats: components["schemas"]["MarketStats"];
+        };
+        /** MarketStats */
+        MarketStats: {
+            /** Latest */
+            latest: number | null;
+            /** Latest Month */
+            latest_month: string | null;
+            /** Change 1Y Pct */
+            change_1y_pct: number | null;
+            /** Change Vs 2019 Pct */
+            change_vs_2019_pct: number | null;
+            /** Trend 3M */
+            trend_3m: string | null;
+            /** Peak */
+            peak: number | null;
+            /** Peak Month */
+            peak_month: string | null;
+            /** Low */
+            low: number | null;
+            /** Low Month */
+            low_month: string | null;
+            /** Summary */
+            summary: string;
+        };
+        /** MyArea */
+        MyArea: {
+            /** City */
+            city: string;
+            /** Clients */
+            clients: number;
+            /** Region Id */
+            region_id: number | null;
+            /** Region Name */
+            region_name: string | null;
+            /** Match */
+            match: string | null;
+            /** Latest */
+            latest: number | null;
+            /** Change 1Y Pct */
+            change_1y_pct: number | null;
+            /** Trend 3M */
+            trend_3m: string | null;
         };
         /** OfferCreate */
         OfferCreate: {
@@ -2954,6 +3095,88 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regions_api_market_regions_get: {
+        parameters: {
+            query?: {
+                q?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarketRegion"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    trends_api_market_trends_get: {
+        parameters: {
+            query: {
+                region_id: number[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarketSeries"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_areas_api_market_my_areas_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyArea"][];
                 };
             };
         };

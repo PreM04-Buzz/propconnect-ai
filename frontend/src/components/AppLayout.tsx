@@ -3,7 +3,6 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
 
-const upcoming = [{ label: "Market trends", phase: 4 }];
 
 export function AppLayout() {
   const { user, signOut } = useAuth();
@@ -30,14 +29,10 @@ export function AppLayout() {
           <NavLink to="/properties">Properties</NavLink>
           <NavLink to="/calendar">Calendar</NavLink>
           <NavLink to="/offers">Offers</NavLink>
+          <NavLink to="/market">Market trends</NavLink>
           {user?.role === "admin" && (
             <NavLink to="/admin">Admin{waiting > 0 && <span className="nav-count" aria-label={`${waiting} waiting`}>{waiting}</span>}</NavLink>
           )}
-          {upcoming.map((m) => (
-            <span key={m.label} className="nav-soon" title="Coming in a later phase">
-              {m.label} <small>Later</small>
-            </span>
-          ))}
         </nav>
         <div className="sidebar-user">
           <div>{user?.full_name}</div>
