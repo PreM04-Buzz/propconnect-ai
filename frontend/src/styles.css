@@ -545,3 +545,72 @@ textarea { font: inherit; padding: 0.55rem 0.7rem; border: 1px solid var(--line)
 .stat-card dt { color: var(--ink-soft); font-size: 0.88rem; }
 .stat-card dd { margin: 0; font-weight: 600; text-align: right; }
 .stat-card dd small { font-weight: 400; color: var(--ink-soft); }
+
+/* ---------- Client portal ---------- */
+.portal { min-height: 100vh; background: #f5f6f3; }
+.portal-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #1c2b3a; color: #fff;
+  padding: 0.9rem clamp(1rem, 4vw, 2.5rem); position: sticky; top: 0; z-index: 5; }
+.portal-who { display: flex; gap: 1rem; align-items: center; color: #dce3e9; }
+.portal-who .link-button { color: #dce3e9; }
+.portal-main { max-width: 1040px; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 2rem) 3rem; display: grid; gap: 1rem; }
+.portal-progress h1 { margin: 0; font-size: clamp(1.6rem, 3vw, 2.1rem); }
+.portal-desc { margin: 0.5rem 0 1.25rem; color: #33424f; font-size: 1.05rem; max-width: 60ch; }
+.psteps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.5rem; }
+.pstep { display: grid; justify-items: center; gap: 0.4rem; text-align: center; position: relative; }
+.pstep:not(:last-child)::after { content: ""; position: absolute; top: 0.85rem; left: calc(50% + 1rem); right: calc(-50% + 1rem);
+  height: 2px; background: #d5dae0; }
+.pstep-done:not(:last-child)::after { background: #a8741a; }
+.pstep-dot { width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; border: 2px solid #c3ccd4;
+  background: #fff; font-size: 0.85rem; font-weight: 700; color: #fff; }
+.pstep-done .pstep-dot { background: #a8741a; border-color: #a8741a; }
+.pstep-current .pstep-dot { border-color: #e0a94a; box-shadow: 0 0 0 4px rgba(224, 169, 74, 0.25); background: #1c2b3a; }
+.pstep-label { font-size: 0.82rem; color: #4a5866; }
+.pstep-current .pstep-label { color: #1c2b3a; font-weight: 600; }
+@media (max-width: 640px) {
+  .psteps { grid-template-columns: 1fr; }
+  .pstep { grid-template-columns: auto 1fr; justify-items: start; text-align: left; align-items: center; }
+  .pstep:not(:last-child)::after { display: none; }
+}
+.portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+.portal-grid h2, .portal-messages h2 { margin: 0 0 0.6rem; font-size: 1.1rem; }
+.portal-agent { font-size: 1.15rem; font-weight: 600; margin: 0 0 0.2rem; }
+.portal-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.65rem; }
+.portal-list li { display: grid; gap: 0.15rem; }
+.portal-messages .tabs { margin-bottom: 0.75rem; }
+.tab .nav-count { margin-left: 0.4rem; }
+
+/* ---------- Message threads (portal and staff inbox) ---------- */
+.thread { display: grid; gap: 0.6rem; }
+.thread-list { display: grid; gap: 0.6rem; max-height: 420px; overflow-y: auto; padding: 0.25rem; }
+.thread-empty { margin: 0.5rem 0; }
+.bubble { max-width: min(78%, 560px); padding: 0.6rem 0.8rem; border-radius: 12px; display: grid; gap: 0.25rem; }
+.bubble p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.45; }
+.bubble span { font-size: 0.75rem; opacity: 0.75; }
+.bubble-mine { justify-self: end; background: #1c2b3a; color: #f5f6f3; border-bottom-right-radius: 4px; }
+.bubble-theirs { justify-self: start; background: #eef1f4; color: #1c2b3a; border-bottom-left-radius: 4px; }
+.thread-form textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 0.6rem 0.75rem; border: 1px solid var(--line);
+  border-radius: var(--radius); resize: vertical; }
+.thread-note { margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.inbox { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+@media (max-width: 860px) { .inbox { grid-template-columns: 1fr; } }
+.inbox-list { display: grid; gap: 0.5rem; }
+.conv { display: grid; gap: 0.25rem; text-align: left; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 0.7rem 0.85rem; font: inherit; cursor: pointer; }
+.conv-active { border-color: var(--brass); box-shadow: inset 3px 0 0 var(--brass); }
+.conv-top { display: flex; align-items: center; gap: 0.4rem; }
+.conv-top .nav-count { margin-left: auto; }
+.conv-body { color: #4a5866; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.inbox-head h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+.invite-link { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.invite-link input { flex: 1; min-width: 0; font: inherit; font-size: 0.85rem; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 6px; }
+
+/* "Client sign-in" where clients will look for it */
+.wl-nav .wl-nav-client { background: #e0a94a; color: #1c2b3a !important; padding: 0.35rem 0.85rem; border-radius: 999px; font-weight: 600; }
+.wl-nav .wl-nav-client:hover { background: #ebb85e; text-decoration: none; }
+.top-switch { position: absolute; top: calc(1rem + env(safe-area-inset-top, 0px)); right: 1.25rem; z-index: 2; margin: 0;
+  font-size: 0.92rem; color: var(--ink-soft); }
+.top-switch a { font-weight: 600; }
+@media (max-width: 860px) { .top-switch { position: static; justify-self: end; margin: 0 0 0.75rem; } }

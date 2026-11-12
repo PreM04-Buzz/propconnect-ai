@@ -31,6 +31,7 @@ def _setup(client, db, monkeypatch, status=201):
     b = make_user(db, "james@test.com", UserRole.agent)
     client.post("/api/public/intake", json=FORM)
     cid = client.get("/api/admin/clients", headers=login(client, "broker@test.com")).json()[0]["client_id"]
+    fake.sent.clear()  # the form's own "we've received your request" email; these tests are about the intro
     return login(client, "broker@test.com"), a, b, cid, fake
 
 
@@ -108,3 +109,63 @@ def test_no_email_address_means_no_email(client, db, monkeypatch):
     r = _assign(client, broker, cid, b.id)
     assert r.json()["email_status"] == "skipped" and "no email" in r.json()["email_detail"]
     assert all(m["json"]["to"][0]["email"] != "" for m in fake.sent)
+
+
+def _link(msg: dict) -> str:
+    import re
+    return re.search(r'href="([^"]+portal[^"]*)"', msg["json"]["htmlContent"]).group(1).replace("&amp;", "&")
+
+
+def test_the_form_emails_a_link_to_create_an_account(client, db, monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "brevo_api_key", "test-key")
+    monkeypatch.setattr(s, "email_from_address", "hello@propconnect-demo.com")
+    fake = FakeBrevo()
+    monkeypatch.setattr(email_service.httpx, "post", fake)
+    r = client.post("/api/public/intake", json=FORM)
+    assert r.status_code == 202 and "create your client account" in r.json()["message"]
+    [msg] = fake.sent
+    assert msg["json"]["subject"] == "We’ve received your request" and msg["json"]["to"][0]["email"] == "dana@example.com"
+    assert "Create my client account" in msg["json"]["htmlContent"]
+    url = _link(msg)
+    assert "/portal/setup#token=" in url
+    token = url.split("#token=", 1)[1]
+    assert client.post("/api/portal/accept", json={"token": token, "password": "dana-pass-123"}).status_code == 200
+
+
+def test_a_returning_client_with_an_account_gets_a_sign_in_link_not_a_reset(client, db, monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "brevo_api_key", "test-key")
+    monkeypatch.setattr(s, "email_from_address", "hello@propconnect-demo.com")
+    fake = FakeBrevo()
+    monkeypatch.setattr(email_service.httpx, "post", fake)
+    client.post("/api/public/intake", json=FORM)
+    token = _link(fake.sent[0]).split("#token=", 1)[1]
+    client.post("/api/portal/accept", json={"token": token, "password": "dana-pass-123"})
+    client.post("/api/public/intake", json={**FORM, "notes": "Now also Evanston"})
+    second = fake.sent[-1]["json"]["htmlContent"]
+    assert "Sign in to your client portal" in second and "#token=" not in second
+    ok = client.post("/api/portal/login", json={"email": "dana@example.com", "password": "dana-pass-123"})
+    assert ok.status_code == 200                                  # the password was not touched
+
+
+def test_the_intro_email_has_a_create_link_then_a_sign_in_link(client, db, monkeypatch):
+    broker, a, b, cid, fake = _setup(client, db, monkeypatch)
+    _assign(client, broker, cid, a.id)
+    intro = fake.sent[-1]
+    assert "Create my client account" in intro["json"]["htmlContent"]
+    token = _link(intro).split("#token=", 1)[1]
+    assert client.post("/api/portal/accept", json={"token": token, "password": "dana-pass-123"}).status_code == 200
+    _assign(client, broker, cid, b.id)                            # moved: James introduces himself
+    second = fake.sent[-1]["json"]["htmlContent"]
+    assert "Sign in to your client portal" in second and "#token=" not in second
+
+
+def test_the_form_still_works_when_email_fails(client, db, monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "brevo_api_key", "test-key")
+    monkeypatch.setattr(s, "email_from_address", "hello@propconnect-demo.com")
+    def down(*args, **kwargs):
+        raise httpx.ConnectTimeout("no route")
+    monkeypatch.setattr(email_service.httpx, "post", down)
+    assert client.post("/api/public/intake", json=FORM).status_code == 202

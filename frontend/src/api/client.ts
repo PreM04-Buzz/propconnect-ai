@@ -31,6 +31,10 @@ export type IntakeForm = S["IntakeCreate"];
 export type MarketRegion = S["MarketRegion"];
 export type MarketSeries = S["MarketSeries"];
 export type MyArea = S["MyArea"];
+export type PortalOverview = S["PortalOverview"];
+export type PortalStatus = S["PortalStatus"];
+export type MessageRead = S["MessageRead"];
+export type Conversation = S["Conversation"];
 export type OfferStatus = S["OfferStatus"];
 
 // Access token lives in sessionStorage: it survives a refresh but is cleared when the tab closes.
@@ -76,3 +80,32 @@ export function errorMessage(error: unknown, fallback = "Something went wrong. T
   }
   return fallback;
 }
+
+// ---------------------------------------------------------------- client portal
+// Clients sign in separately, with their own token and storage key, so a client session and a
+// staff session can never be confused (the server also refuses each kind on the other side).
+const CLIENT_TOKEN_KEY = "propconnect.client-token";
+export const clientTokenStore = {
+  get: () => sessionStorage.getItem(CLIENT_TOKEN_KEY),
+  set: (t: string) => sessionStorage.setItem(CLIENT_TOKEN_KEY, t),
+  clear: () => sessionStorage.removeItem(CLIENT_TOKEN_KEY),
+};
+let onClientUnauthorized: () => void = () => {};
+export function setClientUnauthorizedHandler(fn: () => void) {
+  onClientUnauthorized = fn;
+}
+export const portalApi = createClient<paths>({ baseUrl: API_URL });
+portalApi.use({
+  onRequest({ request }) {
+    const token = clientTokenStore.get();
+    if (token) request.headers.set("Authorization", `Bearer ${token}`);
+    return request;
+  },
+  onResponse({ response }) {
+    if (response.status === 401 && clientTokenStore.get()) {
+      clientTokenStore.clear();
+      onClientUnauthorized();
+    }
+    return response;
+  },
+});

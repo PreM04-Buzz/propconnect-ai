@@ -76,6 +76,12 @@ python -m app.scripts.seed_demo      # 2 demo agents, 40 clients, leads in every
 Demo agent logins: `maria.lopez@propconnect-demo.com` and `james.carter@propconnect-demo.com`,
 password `DEMO_PASSWORD` from `.env` (default `DemoAgent2026`).
 
+### Client portal
+
+Clients follow their own home search at `/portal`. Clients who use the "Find a home" form get an automatic email straight away with a **Create my client account** link, and the "meet your agent" email carries one too (or a sign-in link once they have an account). An agent (or the broker) can also click **Invite to client portal** on the client's page: the app creates a one-time link (valid 7 days, emailed through Brevo when email is set up, and always shown to copy). The client chooses a password and can then see their progress through the stages in plain words, their upcoming viewings, their submitted offers and their agent's details, and message either their agent or the broker. Messages to the broker are private from the agent. Staff read and answer in **Messages**, with an unread count in the menu.
+
+Clients get their own kind of sign-in token: every staff endpoint refuses it and every portal endpoint refuses staff tokens (both checked for every endpoint in docs/security-matrix.md). Invitation links are stored only as a SHA-256 hash, sit after `#` so they never reach server logs, and are removed from the address bar once opened. Portal sign-in has the same lockout as staff sign-in.
+
 ### Market trends
 
 The **Market trends** page (`/market`) uses the 94,656 rows of Zillow monthly inventory (homes for sale per metro, March 2018 to August 2026). It shows the market in each metro where the agent's clients want to live (suburbs such as Naperville or Evanston are matched to the Chicago metro by ZIP code; areas with no Zillow metro are listed honestly as having no data), a chart comparing up to three areas either as raw counts or as a percentage of their 2019 level, and a plain-English summary an agent can repeat to a client.

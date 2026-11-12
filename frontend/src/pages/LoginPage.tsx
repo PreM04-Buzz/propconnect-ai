@@ -45,6 +45,7 @@ export function LoginPage() {
         </div>
       </aside>
       <main className="login-main">
+        <p className="top-switch">Are you a client? <Link to="/portal/login">Client sign-in</Link></p>
       <div className="login-watermark" aria-hidden="true" />
       <form className="login-card" onSubmit={handleSubmit} noValidate>
         <h1>Sign in</h1>
@@ -65,7 +66,7 @@ export function LoginPage() {
           {submitting ? "Signing in…" : "Sign in"}
         </button>
       </form>
-      <p className="login-switch">Looking to buy or sell? <Link to="/start">Tell us what you need</Link> · <Link to="/welcome">About PropConnect AI</Link></p>
+      <p className="login-switch">Looking to buy or sell? <Link to="/start">Tell us what you need</Link> · Already a client? <Link to="/portal/login">Client sign-in</Link></p>
       </main>
     </div>
   );

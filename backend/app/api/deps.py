@@ -27,6 +27,8 @@ def get_current_user(db: DbSession, token: Annotated[str, Depends(oauth2_scheme)
         user_id = int(payload["sub"])
     except (jwt.PyJWTError, KeyError, ValueError):
         raise _credentials_error
+    if payload.get("typ", "staff") != "staff":  # a client-portal token can never act as staff
+        raise _credentials_error
     user = db.get(User, user_id)
     if user is None or not user.is_active:
         raise _credentials_error

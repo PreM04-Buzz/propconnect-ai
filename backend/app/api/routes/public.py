@@ -9,12 +9,14 @@ from app.core import rate_limit
 from app.models import Client, Lead, LeadStageHistory
 from app.models.enums import LeadStage
 from app.schemas.intake import IntakeCreate, IntakeReply
+from app.services.email import send_request_received
 from app.services.lead_scoring import refresh_client_leads
 
 router = APIRouter(prefix="/public", tags=["public"])
 
-THANKS = ("Thank you! We’ve received your details, and an agent will get in touch soon "
-          "using the email or phone number you gave us.")
+THANKS = ("Thank you! We’ve received your details, and an agent will get in touch soon. "
+          "We’ve also emailed you a link to create your client account, where you can follow your request "
+          "and message your agent. If it isn’t in your inbox in a few minutes, check your spam folder.")
 PER_HOUR = 5
 
 
@@ -49,6 +51,7 @@ def submit_intake(payload: IntakeCreate, request: Request, db: DbSession) -> Int
         extra = f"{stamp} Sent the form again: {wishes}. {payload.notes or ''}".strip()
         existing.notes = f"{existing.notes}\n{extra}" if existing.notes else extra
         db.commit()
+        send_request_received(db, existing)  # a sign-in link if they have an account, else a new "create" link
         return IntakeReply(message=THANKS)
 
     client = Client(
@@ -69,4 +72,5 @@ def submit_intake(payload: IntakeCreate, request: Request, db: DbSession) -> Int
     db.add(LeadStageHistory(lead_id=lead.id, from_stage=None, to_stage=LeadStage.new, changed_by_id=None))
     refresh_client_leads(db, client)
     db.commit()
+    send_request_received(db, client)
     return IntakeReply(message=THANKS)

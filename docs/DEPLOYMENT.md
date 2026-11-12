@@ -95,6 +95,10 @@ Render's free plan blocks normal email (SMTP), so the app sends through Brevo's 
 
 Without a domain of your own, some emails may land in the client's spam folder at first. A verified domain in Brevo fixes that if the product goes beyond the class project.
 
+## Client portal links
+
+Invitation emails link to `APP_URL` (set in `render.yaml` to the GitHub Pages address). If the site ever moves, update `APP_URL` in Render's Environment.
+
 ## Protecting the AI budget
 
 - The OpenAI key lives only in Render's settings. It's never in the frontend or in Git.

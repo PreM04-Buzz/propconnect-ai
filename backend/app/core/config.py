@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     email_from_address: str | None = None   # a sender address verified in Brevo
     email_from_name: str = "PropConnect AI"
     email_timeout_seconds: float = 10.0
+    # Where the website lives, for links in emails (portal invitations).
+    app_url: str = "http://localhost:5173"
+    portal_invite_days: int = 7
     login_max_attempts: int = 5
     login_window_seconds: int = 60
     # Each user can ask the AI this many times per hour. Protects the OpenAI bill on a public site.

@@ -2452,6 +2452,499 @@
         ]
       }
     },
+    "/api/portal/accept": {
+      "post": {
+        "tags": [
+          "client portal"
+        ],
+        "summary": "Accept Invite",
+        "description": "Open the invitation link and choose a password. The link works once.",
+        "operationId": "accept_invite_api_portal_accept_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalAccept"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalToken"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portal/login": {
+      "post": {
+        "tags": [
+          "client portal"
+        ],
+        "summary": "Portal Login",
+        "operationId": "portal_login_api_portal_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalToken"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portal/me": {
+      "get": {
+        "tags": [
+          "client portal"
+        ],
+        "summary": "Overview",
+        "description": "Everything the client may see about their own search, and nothing about anyone else.",
+        "operationId": "overview_api_portal_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalOverview"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/portal/messages": {
+      "get": {
+        "tags": [
+          "client portal"
+        ],
+        "summary": "Portal Messages",
+        "operationId": "portal_messages_api_portal_messages_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "agent",
+                "broker"
+              ],
+              "type": "string",
+              "title": "Channel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageRead"
+                  },
+                  "title": "Response Portal Messages Api Portal Messages Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "client portal"
+        ],
+        "summary": "Portal Send",
+        "operationId": "portal_send_api_portal_messages_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalMessageIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients/{client_id}/portal-invite": {
+      "post": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Invite",
+        "description": "Create (or renew) the client's invitation link. Also works as a password reset.",
+        "operationId": "invite_api_clients__client_id__portal_invite_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalInvite"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients/{client_id}/portal": {
+      "get": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Portal Status",
+        "operationId": "portal_status_api_clients__client_id__portal_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/messages/conversations": {
+      "get": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Conversations",
+        "operationId": "conversations_api_messages_conversations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Conversation"
+                  },
+                  "type": "array",
+                  "title": "Response Conversations Api Messages Conversations Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/messages/unread-count": {
+      "get": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Unread Count",
+        "operationId": "unread_count_api_messages_unread_count_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "title": "Response Unread Count Api Messages Unread Count Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/messages/{client_id}/{channel}": {
+      "get": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Staff Thread",
+        "operationId": "staff_thread_api_messages__client_id___channel__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Client Id"
+            }
+          },
+          {
+            "name": "channel",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "agent",
+                "broker"
+              ],
+              "type": "string",
+              "title": "Channel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageRead"
+                  },
+                  "title": "Response Staff Thread Api Messages  Client Id   Channel  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "client portal (staff)"
+        ],
+        "summary": "Staff Reply",
+        "operationId": "staff_reply_api_messages__client_id___channel__post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Client Id"
+            }
+          },
+          {
+            "name": "channel",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "agent",
+                "broker"
+              ],
+              "type": "string",
+              "title": "Channel"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/public/intake": {
       "post": {
         "tags": [
@@ -4215,6 +4708,62 @@
         "type": "object",
         "title": "ClientUpdate"
       },
+      "Conversation": {
+        "properties": {
+          "client_id": {
+            "type": "integer",
+            "title": "Client Id"
+          },
+          "client_name": {
+            "type": "string",
+            "title": "Client Name"
+          },
+          "channel": {
+            "type": "string",
+            "title": "Channel"
+          },
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "last_body": {
+            "type": "string",
+            "title": "Last Body"
+          },
+          "last_sender": {
+            "type": "string",
+            "title": "Last Sender"
+          },
+          "last_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last At"
+          },
+          "unread": {
+            "type": "integer",
+            "title": "Unread"
+          }
+        },
+        "type": "object",
+        "required": [
+          "client_id",
+          "client_name",
+          "channel",
+          "agent_name",
+          "last_body",
+          "last_sender",
+          "last_at",
+          "unread"
+        ],
+        "title": "Conversation"
+      },
       "FinancingStatus": {
         "type": "string",
         "enum": [
@@ -5193,6 +5742,73 @@
         ],
         "title": "MarketStats"
       },
+      "MessageIn": {
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Body"
+          }
+        },
+        "type": "object",
+        "required": [
+          "body"
+        ],
+        "title": "MessageIn"
+      },
+      "MessageRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "channel": {
+            "type": "string",
+            "title": "Channel"
+          },
+          "sender": {
+            "type": "string",
+            "title": "Sender"
+          },
+          "sender_name": {
+            "type": "string",
+            "title": "Sender Name"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "read_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Read At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "channel",
+          "sender",
+          "sender_name",
+          "body",
+          "created_at",
+          "read_at"
+        ],
+        "title": "MessageRead"
+      },
       "MyArea": {
         "properties": {
           "city": {
@@ -5539,6 +6155,387 @@
           "new_password"
         ],
         "title": "PasswordChange"
+      },
+      "PortalAccept": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 20,
+            "title": "Token"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "password"
+        ],
+        "title": "PortalAccept"
+      },
+      "PortalAgent": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "title": "PortalAgent"
+      },
+      "PortalAppointment": {
+        "properties": {
+          "starts_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Starts At"
+          },
+          "ends_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ends At"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "starts_at",
+          "ends_at",
+          "kind",
+          "address"
+        ],
+        "title": "PortalAppointment"
+      },
+      "PortalInvite": {
+        "properties": {
+          "invite_url": {
+            "type": "string",
+            "title": "Invite Url"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "email_status": {
+            "type": "string",
+            "title": "Email Status"
+          },
+          "email_detail": {
+            "type": "string",
+            "title": "Email Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "invite_url",
+          "expires_at",
+          "email_status",
+          "email_detail"
+        ],
+        "title": "PortalInvite"
+      },
+      "PortalLogin": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "PortalLogin"
+      },
+      "PortalMessageIn": {
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Body"
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "broker"
+            ],
+            "title": "Channel"
+          }
+        },
+        "type": "object",
+        "required": [
+          "body",
+          "channel"
+        ],
+        "title": "PortalMessageIn"
+      },
+      "PortalOffer": {
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "counter_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Counter Amount"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "address",
+          "amount",
+          "counter_amount",
+          "status",
+          "updated_at"
+        ],
+        "title": "PortalOffer"
+      },
+      "PortalOverview": {
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "last_name": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "agent": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PortalAgent"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "stage_label": {
+            "type": "string",
+            "title": "Stage Label"
+          },
+          "stage_description": {
+            "type": "string",
+            "title": "Stage Description"
+          },
+          "paused": {
+            "type": "boolean",
+            "title": "Paused"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/StageStep"
+            },
+            "type": "array",
+            "title": "Steps"
+          },
+          "appointments": {
+            "items": {
+              "$ref": "#/components/schemas/PortalAppointment"
+            },
+            "type": "array",
+            "title": "Appointments"
+          },
+          "offers": {
+            "items": {
+              "$ref": "#/components/schemas/PortalOffer"
+            },
+            "type": "array",
+            "title": "Offers"
+          },
+          "unread": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Unread"
+          }
+        },
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "email",
+          "agent",
+          "stage",
+          "stage_label",
+          "stage_description",
+          "paused",
+          "steps",
+          "appointments",
+          "offers",
+          "unread"
+        ],
+        "title": "PortalOverview"
+      },
+      "PortalStatus": {
+        "properties": {
+          "invited": {
+            "type": "boolean",
+            "title": "Invited"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          },
+          "invite_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invite Expires At"
+          },
+          "activated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activated At"
+          },
+          "last_login_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Login At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "invited",
+          "active",
+          "invite_expires_at",
+          "activated_at",
+          "last_login_at"
+        ],
+        "title": "PortalStatus"
+      },
+      "PortalToken": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token"
+        ],
+        "title": "PortalToken"
       },
       "PropertyCreate": {
         "properties": {
@@ -6039,6 +7036,34 @@
           "changed_at"
         ],
         "title": "StageHistoryRead"
+      },
+      "StageStep": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "done",
+              "current",
+              "todo"
+            ],
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "state"
+        ],
+        "title": "StageStep"
       },
       "SuggestionDecision": {
         "properties": {

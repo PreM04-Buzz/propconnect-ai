@@ -646,6 +646,170 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/portal/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept Invite
+         * @description Open the invitation link and choose a password. The link works once.
+         */
+        post: operations["accept_invite_api_portal_accept_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/portal/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Portal Login */
+        post: operations["portal_login_api_portal_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/portal/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Overview
+         * @description Everything the client may see about their own search, and nothing about anyone else.
+         */
+        get: operations["overview_api_portal_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/portal/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Portal Messages */
+        get: operations["portal_messages_api_portal_messages_get"];
+        put?: never;
+        /** Portal Send */
+        post: operations["portal_send_api_portal_messages_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}/portal-invite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Invite
+         * @description Create (or renew) the client's invitation link. Also works as a password reset.
+         */
+        post: operations["invite_api_clients__client_id__portal_invite_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clients/{client_id}/portal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Portal Status */
+        get: operations["portal_status_api_clients__client_id__portal_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Conversations */
+        get: operations["conversations_api_messages_conversations_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/unread-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Unread Count */
+        get: operations["unread_count_api_messages_unread_count_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/{client_id}/{channel}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Staff Thread */
+        get: operations["staff_thread_api_messages__client_id___channel__get"];
+        put?: never;
+        /** Staff Reply */
+        post: operations["staff_reply_api_messages__client_id___channel__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/public/intake": {
         parameters: {
             query?: never;
@@ -1120,6 +1284,28 @@ export interface components {
             /** Notes */
             notes?: string | null;
         };
+        /** Conversation */
+        Conversation: {
+            /** Client Id */
+            client_id: number;
+            /** Client Name */
+            client_name: string;
+            /** Channel */
+            channel: string;
+            /** Agent Name */
+            agent_name: string | null;
+            /** Last Body */
+            last_body: string;
+            /** Last Sender */
+            last_sender: string;
+            /**
+             * Last At
+             * Format: date-time
+             */
+            last_at: string;
+            /** Unread */
+            unread: number;
+        };
         /**
          * FinancingStatus
          * @enum {string}
@@ -1398,6 +1584,31 @@ export interface components {
             /** Summary */
             summary: string;
         };
+        /** MessageIn */
+        MessageIn: {
+            /** Body */
+            body: string;
+        };
+        /** MessageRead */
+        MessageRead: {
+            /** Id */
+            id: number;
+            /** Channel */
+            channel: string;
+            /** Sender */
+            sender: string;
+            /** Sender Name */
+            sender_name: string;
+            /** Body */
+            body: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Read At */
+            read_at: string | null;
+        };
         /** MyArea */
         MyArea: {
             /** City */
@@ -1495,6 +1706,135 @@ export interface components {
             current_password: string;
             /** New Password */
             new_password: string;
+        };
+        /** PortalAccept */
+        PortalAccept: {
+            /** Token */
+            token: string;
+            /** Password */
+            password: string;
+        };
+        /** PortalAgent */
+        PortalAgent: {
+            /** Name */
+            name: string;
+            /** Email */
+            email: string;
+        };
+        /** PortalAppointment */
+        PortalAppointment: {
+            /**
+             * Starts At
+             * Format: date-time
+             */
+            starts_at: string;
+            /**
+             * Ends At
+             * Format: date-time
+             */
+            ends_at: string;
+            /** Kind */
+            kind: string;
+            /** Address */
+            address: string | null;
+        };
+        /** PortalInvite */
+        PortalInvite: {
+            /** Invite Url */
+            invite_url: string;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+            /** Email Status */
+            email_status: string;
+            /** Email Detail */
+            email_detail: string;
+        };
+        /** PortalLogin */
+        PortalLogin: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /** PortalMessageIn */
+        PortalMessageIn: {
+            /** Body */
+            body: string;
+            /**
+             * Channel
+             * @enum {string}
+             */
+            channel: "agent" | "broker";
+        };
+        /** PortalOffer */
+        PortalOffer: {
+            /** Address */
+            address: string | null;
+            /** Amount */
+            amount: number;
+            /** Counter Amount */
+            counter_amount: number | null;
+            /** Status */
+            status: string;
+            /** Updated At */
+            updated_at: string | null;
+        };
+        /** PortalOverview */
+        PortalOverview: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Email */
+            email: string | null;
+            agent: components["schemas"]["PortalAgent"] | null;
+            /** Stage */
+            stage: string | null;
+            /** Stage Label */
+            stage_label: string;
+            /** Stage Description */
+            stage_description: string;
+            /** Paused */
+            paused: boolean;
+            /** Steps */
+            steps: components["schemas"]["StageStep"][];
+            /** Appointments */
+            appointments: components["schemas"]["PortalAppointment"][];
+            /** Offers */
+            offers: components["schemas"]["PortalOffer"][];
+            /** Unread */
+            unread: {
+                [key: string]: number;
+            };
+        };
+        /** PortalStatus */
+        PortalStatus: {
+            /** Invited */
+            invited: boolean;
+            /** Active */
+            active: boolean;
+            /** Invite Expires At */
+            invite_expires_at: string | null;
+            /** Activated At */
+            activated_at: string | null;
+            /** Last Login At */
+            last_login_at: string | null;
+        };
+        /** PortalToken */
+        PortalToken: {
+            /** Access Token */
+            access_token: string;
+            /**
+             * Token Type
+             * @default bearer
+             */
+            token_type: string;
         };
         /** PropertyCreate */
         PropertyCreate: {
@@ -1620,6 +1960,18 @@ export interface components {
              * Format: date-time
              */
             changed_at: string;
+        };
+        /** StageStep */
+        StageStep: {
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "done" | "current" | "todo";
         };
         /** SuggestionDecision */
         SuggestionDecision: {
@@ -3177,6 +3529,326 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyArea"][];
+                };
+            };
+        };
+    };
+    accept_invite_api_portal_accept_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PortalAccept"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalToken"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    portal_login_api_portal_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PortalLogin"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalToken"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    overview_api_portal_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalOverview"];
+                };
+            };
+        };
+    };
+    portal_messages_api_portal_messages_get: {
+        parameters: {
+            query: {
+                channel: "agent" | "broker";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageRead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    portal_send_api_portal_messages_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PortalMessageIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    invite_api_clients__client_id__portal_invite_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalInvite"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    portal_status_api_clients__client_id__portal_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalStatus"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    conversations_api_messages_conversations_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Conversation"][];
+                };
+            };
+        };
+    };
+    unread_count_api_messages_unread_count_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    staff_thread_api_messages__client_id___channel__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+                channel: "agent" | "broker";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageRead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    staff_reply_api_messages__client_id___channel__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                client_id: number;
+                channel: "agent" | "broker";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MessageIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

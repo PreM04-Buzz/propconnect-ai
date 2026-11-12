@@ -9,6 +9,13 @@ export function AppLayout() {
   const location = useLocation();
   const [waiting, setWaiting] = useState(0);
 
+  const [unread, setUnread] = useState(0);
+
+  // Unread client messages, refreshed as the user moves around the app.
+  useEffect(() => {
+    api.GET("/api/messages/unread-count").then(({ data }) => typeof data === "number" && setUnread(data)).catch(() => undefined);
+  }, [location.pathname, location.search]);
+
   // Brokers see how many website requests are waiting for an agent, refreshed as they move around.
   useEffect(() => {
     if (user?.role !== "admin") return;
@@ -30,6 +37,7 @@ export function AppLayout() {
           <NavLink to="/calendar">Calendar</NavLink>
           <NavLink to="/offers">Offers</NavLink>
           <NavLink to="/market">Market trends</NavLink>
+          <NavLink to="/messages">Messages{unread > 0 && <span className="nav-count" aria-label={`${unread} unread`}>{unread}</span>}</NavLink>
           {user?.role === "admin" && (
             <NavLink to="/admin">Admin{waiting > 0 && <span className="nav-count" aria-label={`${waiting} waiting`}>{waiting}</span>}</NavLink>
           )}
